@@ -6,6 +6,7 @@ code to mount, bundled using Webpack.
 
 To build:
 
+    npm install
     npm run build
 
 Then open the `dist/index.html` file in your browser. The component
