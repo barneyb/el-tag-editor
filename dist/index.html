@@ -5,7 +5,11 @@
     <title>Greeter</title>
   </head>
   <body>
-    <div id="unnamed"></div>
+    <form id="form">
+      <div id="unnamed"></div>
+      <input id="name" placeholder="Your Name" />
+      <button>Greet Me!</button>
+    </form>
     <div id="barney"></div>
     <!--
     <script src="https://unpkg.com/react@16.7.0/umd/react.development.js"></script>
@@ -15,12 +19,19 @@
     <script src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.production.min.js"></script>
     <script type="text/javascript" src="Greet.js"></script>
     <script type="text/javascript">
-      ReactDOM.render(React.createElement(Greet.default),
-        document.getElementById("unnamed"));
-      ReactDOM.render(React.createElement(Greet.default, {
-          name: "Barney"
-        }),
-        document.getElementById("barney"));
+      function setGreeting(tgt, name) {
+        ReactDOM.render(React.createElement(Greet.default, {
+            name: name
+          }),
+          document.getElementById(tgt));
+      }
+      setGreeting("unnamed", "");
+      setGreeting("barney", "Barney");
+      document.getElementById("form").addEventListener("submit", function regreet(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        setGreeting("unnamed", document.getElementById("name").value);
+      }, false);
     </script>
   </body>
 </html>
