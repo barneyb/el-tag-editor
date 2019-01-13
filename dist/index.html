@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Greeter</title>
+  </head>
+  <body>
+    <div id="unnamed"></div>
+    <div id="barney"></div>
+    <!--
+    <script src="https://unpkg.com/react@16.7.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.development.js"></script>
+    -->
+    <script src="https://unpkg.com/react@16.7.0/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.production.min.js"></script>
+    <script type="text/javascript" src="Greet.js"></script>
+    <script type="text/javascript">
+      ReactDOM.render(React.createElement(Greet.default),
+        document.getElementById("unnamed"));
+      ReactDOM.render(React.createElement(Greet.default, {
+          name: "Barney"
+        }),
+        document.getElementById("barney"));
+    </script>
+  </body>
+</html>

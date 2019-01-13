@@ -1,0 +1,21 @@
+{
+  "name": "react-module-demo",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "dist/Greet.js",
+  "module": "src/Greet.js",
+  "peerDependencies": {
+    "react": "16.7.0"
+  },
+  "devDependencies": {
+    "webpack-cli": "3.2.1",
+    "webpack": "4.28.4"
+  },
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Barney Boisvert"
+}
