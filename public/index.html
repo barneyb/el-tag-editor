@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>EL Tag Editor</title>
@@ -21,23 +21,24 @@
 <script src="https://unpkg.com/react@16.7.0/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.production.min.js"></script>
 -->
-<script type="text/javascript" src="TagEditor.js"></script>
 <script type="text/javascript">
-    props = {
-        tags: document.querySelector("#tags textarea").value,
-        onChange: newTags => {
-            props.tags = newTags;
-            update();
+    document.addEventListener("DOMContentLoaded", function() {
+        var props = {
+            tags: document.querySelector("#tags textarea").value,
+            onChange: newTags => {
+                props.tags = newTags;
+                update();
+            }
+        };
+        function update() {
+            document.getElementById("result").innerText = props.tags;
+            ReactDOM.render(
+                React.createElement(TagEditor.default, props),
+                document.getElementById("tags"),
+            );
         }
-    };
-    function update() {
-        document.getElementById("result").innerText = props.tags;
-        ReactDOM.render(
-            React.createElement(TagEditor.default, props),
-            document.getElementById("tags"),
-        );
-    }
-    update();
+        update();
+    });
 </script>
 </body>
 </html>

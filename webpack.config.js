@@ -1,4 +1,5 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = env => {
     process.env.NODE_ENV = env.NODE_ENV;
@@ -11,6 +12,11 @@ module.exports = env => {
             libraryTarget: 'umd',
             path: path.resolve(__dirname, 'dist'),
         },
+        plugins: [
+            new HtmlWebpackPlugin({
+                template: './public/index.html'
+            })
+        ],
         module: {
             rules: [
                 {
