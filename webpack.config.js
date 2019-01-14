@@ -1,5 +1,6 @@
 // noinspection NodeJsCodingAssistanceForCoreModules
 const path = require('path');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = env => {
@@ -14,9 +15,10 @@ module.exports = env => {
             path: path.resolve(__dirname, 'dist'),
         },
         plugins: [
+            new CleanWebpackPlugin(['dist']),
             new HtmlWebpackPlugin({
-                template: './public/index.html'
-            })
+                template: './public/index.html',
+            }),
         ],
         module: {
             rules: [
@@ -26,6 +28,9 @@ module.exports = env => {
                     loader: "babel-loader",
                 },
             ],
+        },
+        optimization: {
+            usedExports: true,
         },
         externals: {
             react: {
