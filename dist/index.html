@@ -1,43 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="UTF-8">
-    <title>Greeter</title>
-  </head>
-  <body>
-    <form id="form" autocomplete="off">
-      <div id="unnamed"></div>
-      <input id="name" placeholder="Your Name" />
-      <button>Greet Me!</button>
-    </form>
-    <div id="barney"></div>
-    <h3>Click Count: <span id="count">0</span></h3>
-    <!--
-    <script src="https://unpkg.com/react@16.7.0/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.development.js"></script>
-    -->
-    <script src="https://unpkg.com/react@16.7.0/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.production.min.js"></script>
-    <script type="text/javascript" src="Greet.js"></script>
-    <script type="text/javascript">
-      var clickCount = 0;
-      function clicked(e) {
-        document.getElementById("count").innerText = ++clickCount;
-      }
-      function setGreeting(tgt, name) {
-        ReactDOM.render(React.createElement(Greet.default, {
-            name: name,
-            onClick: clicked
-          }),
-          document.getElementById(tgt));
-      }
-      setGreeting("unnamed", "");
-      setGreeting("barney", "Barney");
-      document.getElementById("form").addEventListener("submit", function regreet(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        setGreeting("unnamed", document.getElementById("name").value);
-      }, false);
-    </script>
-  </body>
+    <title>EL Tag Editor</title>
+</head>
+<body>
+<div id="tags">
+    <textarea>gym, weights, treadmill:30, </textarea>
+</div>
+<!--
+<script src="https://unpkg.com/react@16.7.0/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.development.js"></script>
+-->
+<script src="https://unpkg.com/react@16.7.0/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.production.min.js"></script>
+<script type="text/javascript" src="TagEditor.js"></script>
+<script type="text/javascript">
+    props = {
+        tags: document.querySelector("#tags textarea").value,
+        onChange: newTags => {
+            props.tags = newTags;
+            update();
+        }
+    };
+    function update() {
+        console.log("tags:", props.tags);
+        ReactDOM.render(
+            React.createElement(TagEditor.default, props),
+            document.getElementById("tags"),
+        );
+    }
+    update();
+</script>
+</body>
 </html>

@@ -1,20 +1,21 @@
-# React Module Demo
+# EL Tag Editor
 
-I'm a very simple demonstration of a React Component producing module,
-designed to be `<script>`-loaded onto a page for some other piece of
-code to mount, bundled using Webpack.
+I'm a React component for editing a set of unique tags, each of which may have
+an associated number (integer or float). The tags are canonically represented as
+a comma-delimited string, with the optional number suffixed with a comma. For
+example (one per line):
 
-To build:
+    tomato juice:4, vodka:1, ice:2
+    gym, weights, treadmill:30
+    maui, ribeye, sushi
+
+Editing these lists as text is fairly straightforward, but it can be repetitive
+(and error prone) if you do it a lot. Thus this component, which aims to reduce
+these problems, without reducing flexibility.
+
+## Build and Run
 
     npm install
     npm run build
 
-Then open the `dist/index.html` file in your browser. The component
-itself _is not_ transpiled, but it _is_ using newer ES features (e.g.,
-arrow functions), so you'll need a newer browser in order to view.
-
-The target use case is for a hosting app to ensure React is available,
-load the component, and then use it however it wants to. The component
-can also be depended on and imported into a more normal "all-in-one"
-React app (e.g., via Create React App) and used that way. Check out
-`dist/index.html` for a very simple driver in the former style.
+Then open the `dist/index.html` file in your browser.

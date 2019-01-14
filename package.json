@@ -1,10 +1,10 @@
 {
-  "name": "react-module-demo",
-  "version": "1.0.0",
+  "name": "el-tag-editor",
+  "version": "0.1.0",
   "description": "",
   "private": true,
-  "main": "dist/Greet.js",
-  "module": "src/Greet.js",
+  "main": "dist/TagEditor.js",
+  "module": "src/TagEditor.js",
   "peerDependencies": {
     "react": "16.7.0"
   },
