@@ -19,3 +19,15 @@ these problems, without reducing flexibility.
     npm run build
 
 Then open the `dist/index.html` file in your browser.
+
+For ongoing development, rerunning the build every time is annoying, so you can
+use
+
+    npm start
+    
+instead, which will watch the files and auto-rebuild any time anything changes.
+Thus just edit, save, refresh.
+
+Hot reload is nice, but prevents flipping back and forth between editor and the
+browser while maintaining browser state. I find that extra keystroke to refresh
+to be less of a cost, unless it's sledgehammering visual tweaks.
