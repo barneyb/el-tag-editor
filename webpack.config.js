@@ -1,3 +1,4 @@
+// noinspection NodeJsCodingAssistanceForCoreModules
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -5,7 +6,7 @@ module.exports = env => {
     process.env.NODE_ENV = env.NODE_ENV;
     const config = {
         mode: 'production',
-        entry: './src/TagEditor.js',
+        entry: './src/index.js',
         output: {
             filename: 'TagEditor.js',
             library: 'TagEditor',

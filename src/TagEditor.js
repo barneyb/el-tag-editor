@@ -1,30 +1,31 @@
 import React from "react";
 import Tag from "./Tag";
-import parse from "./parse";
+import unparse from "./unparse";
 
 class TagEditor extends React.PureComponent {
 
     render() {
-        const objs = parse(this.props.tagList);
+        const {
+            tags,
+        } = this.props;
         return <div>
-            <textarea rel="from-react"
-                      value={this.props.tagList}
-                      onChange={e => this.props.onChange(e.target.value)} />
             <div style={{
                 padding: "3px",
                 border: "1px solid #eee",
             }}>
-                {objs.map(t =>
+                {tags.map(t =>
                     <Tag key={t.tag}
                          {...t}
                     />)}
             </div>
+            <hr />
+            <code>{unparse(tags)}</code>
             <pre style={{
                 padding: "5px",
                 border: "1px solid #ff0",
                 backgroundColor: "#ffe",
             }}>
-                {JSON.stringify(objs, null, 3)}
+                {JSON.stringify(tags, null, 3)}
             </pre>
         </div>;
     }
