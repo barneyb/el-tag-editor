@@ -1,6 +1,6 @@
 import React from "react";
 import Tag from "./Tag";
-import unparse from "./unparse";
+import unparse from "../util/unparse";
 
 class TagEditor extends React.PureComponent {
 

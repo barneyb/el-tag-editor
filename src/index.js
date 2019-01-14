@@ -1,7 +1,7 @@
 import React from "react";
-import TagEditor from "./TagEditor";
-import parse from "./parse";
-import unparse from "./unparse";
+import TagEditor from "./components/TagEditor";
+import parse from "./util/parse";
+import unparse from "./util/unparse";
 
 // this is the entry point, so it'll never be used
 // noinspection JSUnusedGlobalSymbols
