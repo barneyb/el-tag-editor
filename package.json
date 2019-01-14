@@ -9,12 +9,15 @@
     "react": "16.7.0"
   },
   "devDependencies": {
-    "webpack-cli": "3.2.1",
-    "webpack": "4.28.4"
+    "@babel/core": "^7.2.2",
+    "babel-loader": "^8.0.5",
+    "babel-preset-react-app": "^7.0.0",
+    "webpack": "4.28.4",
+    "webpack-cli": "3.2.1"
   },
   "scripts": {
-    "start": "webpack --config webpack.config.js --mode development --devtool inline-source-map --watch",
-    "build": "webpack --config webpack.config.js",
+    "start": "webpack --config webpack.config.js --env.NODE_ENV=development",
+    "build": "webpack --config webpack.config.js --env.NODE_ENV=production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
