@@ -14,7 +14,7 @@
 <div id="tags">
     <textarea rel="to-be-replaced">gym, weights, treadmill:30, </textarea>
 </div>
-<pre></pre>
+<pre id="result"></pre>
 <script src="https://unpkg.com/react@16.7.0/umd/react.development.js"></script>
 <script src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.development.js"></script>
 <!--
@@ -31,7 +31,7 @@
         }
     };
     function update() {
-        document.querySelector("pre").innerText = props.tags;
+        document.getElementById("result").innerText = props.tags;
         ReactDOM.render(
             React.createElement(TagEditor.default, props),
             document.getElementById("tags"),
