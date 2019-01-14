@@ -5,16 +5,19 @@ import parse from "./parse";
 class TagEditor extends React.PureComponent {
 
     render() {
-        const objs = parse(this.props.tags);
+        const objs = parse(this.props.tagList);
         return <div>
             <textarea rel="from-react"
-                      value={this.props.tags}
-                      onChange={e => this.props.onChange(e.target.value)}/>
+                      value={this.props.tagList}
+                      onChange={e => this.props.onChange(e.target.value)} />
             <div style={{
                 padding: "3px",
                 border: "1px solid #eee",
             }}>
-                {objs.map(t => <Tag key={t.tag} {...t} />)}
+                {objs.map(t =>
+                    <Tag key={t.tag}
+                         {...t}
+                    />)}
             </div>
             <pre style={{
                 padding: "5px",

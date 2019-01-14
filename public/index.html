@@ -24,14 +24,14 @@
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function() {
         var props = {
-            tags: document.querySelector("#tags textarea").value,
-            onChange: newTags => {
-                props.tags = newTags;
+            tagList: document.querySelector("#tags textarea").value,
+            onChange: newTagList => {
+                props.tagList = newTagList;
                 update();
             }
         };
         function update() {
-            document.getElementById("result").innerText = props.tags;
+            document.getElementById("result").innerText = props.tagList;
             ReactDOM.render(
                 React.createElement(TagEditor.default, props),
                 document.getElementById("tags"),
