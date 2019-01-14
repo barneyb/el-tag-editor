@@ -1,21 +1,19 @@
 import React from "react";
-import Tag from "./Tag";
+import Pill from "./Pill";
 import unparse from "../util/unparse";
 
-class TagEditor extends React.PureComponent {
-
-    render() {
+const TagEditor = props => {
         const {
             tags,
-        } = this.props;
+        } = props;
         return <div>
             <div style={{
                 padding: "3px",
                 border: "1px solid #eee",
             }}>
                 {tags.map(t =>
-                    <Tag key={t.tag}
-                         {...t}
+                    <Pill key={t.tag}
+                          {...t}
                     />)}
             </div>
             <hr />
@@ -28,7 +26,6 @@ class TagEditor extends React.PureComponent {
                 {JSON.stringify(tags, null, 3)}
             </pre>
         </div>;
-    }
-}
+};
 
 export default TagEditor;
