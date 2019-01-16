@@ -19,7 +19,8 @@ const Pill = ({
         {explicit && <Number n={number}
                              onSet={onSetNumber}
         />}
-        <Label label="x"
+        <Label className="delete"
+               label="x"
                onClick={onDelete}
                preventFocus
         />
