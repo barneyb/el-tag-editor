@@ -1,20 +1,43 @@
-import React from "react";
+import React, { Component } from "react";
 
-const Label = ({
-                   label,
-                   preventFocus = false,
-                   onClick,
-                   onKeyPress,
-               }) =>
-    <button onClick={onClick}
-            tabIndex={preventFocus ? -1 : 0}
-            style={{
-                marginLeft: "3px",
-                borderWidth: 0,
-                backgroundColor: "inherit",
-            }}
-            onKeyPress={onKeyPress}>
+class Label extends Component {
+
+    constructor(props) {
+        super(props);
+        this.doKeyPress = this.doKeyPress.bind(this);
+    }
+
+    doKeyPress(e) {
+        const {
+            onClick,
+            onKeyPress,
+        } = this.props;
+        if (onClick && e.key === "Enter") {
+            onClick();
+            return;
+        }
+        onKeyPress && onKeyPress(e);
+    }
+
+    render() {
+        const {
+            label,
+            preventFocus,
+            onClick,
+        } = this.props;
+        return <span onClick={onClick}
+                     tabIndex={preventFocus ? -1 : 0}
+                     style={{
+                         marginLeft: "3px",
+                     }}
+                     onKeyPress={this.doKeyPress}>
         {label}
-    </button>;
+    </span>;
+    }
+}
+
+Label.defaultProps = {
+    preventFocus: false,
+};
 
 export default Label;
