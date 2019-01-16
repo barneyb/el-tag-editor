@@ -6,6 +6,7 @@ const Pill = props => {
     const {
         tag,
         number: n,
+        doDelete,
     } = props;
     return <code style={{
         display: "inline-block",
@@ -16,6 +17,14 @@ const Pill = props => {
     }}>
         <Tag tag={tag} />
         {n != null && n !== 1 && <Number n={n} />}
+        <button onClick={doDelete}
+                style={{
+                    marginLeft: "3px",
+                    borderWidth: 0,
+                    borderLeft: "1px solid #09f",
+                    backgroundColor: "inherit",
+                }}>x
+        </button>
     </code>;
 };
 
