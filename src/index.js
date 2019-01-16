@@ -75,7 +75,7 @@ class index extends React.PureComponent {
         })
     }
 
-    setTagNumber(tag, number = 1) {
+    setTagNumber(tag, number) {
         this.setState(state => {
             const i = state.tags.findIndex(it => it.tag === tag);
             if (i < 0) {
@@ -84,7 +84,8 @@ class index extends React.PureComponent {
             const newTags = state.tags.slice(0);
             newTags[i] = {
                 ...newTags[i],
-                number,
+                number: number != null ? number : 1,
+                explicit: number != null
             };
             return {
                 tags: newTags,

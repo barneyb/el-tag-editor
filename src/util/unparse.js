@@ -1,8 +1,7 @@
 export const unparseTag = t => {
-    if (t.number == null || t.number === 1) {
-        return t.tag;
-    }
-    return t.tag + ":" + t.number;
+    return t.explicit
+        ? t.tag + ":" + t.number
+        : t.tag;
 };
 
 const unparse = tags =>

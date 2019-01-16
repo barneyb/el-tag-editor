@@ -5,7 +5,8 @@ import Label from "./Label";
 
 const Pill = ({
                   tag,
-                  number: n,
+                  number,
+                  explicit,
                   onRename,
                   onSetNumber,
                   onDelete,
@@ -21,8 +22,8 @@ const Pill = ({
              onRename={onRename}
              doDelete={onDelete}
         />
-        {n != null && n !== 1 && <Number n={n}
-                                         onSet={onSetNumber}
+        {explicit && <Number n={number}
+                             onSet={onSetNumber}
         />}
         <Label label="x"
                onClick={onDelete}

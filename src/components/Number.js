@@ -37,7 +37,7 @@ class Number extends React.PureComponent {
     doKeyPress(e) {
         switch (e.key) {
             case "Delete":
-                this.props.onSet(1);
+                this.props.onSet();
                 break;
         }
     }
