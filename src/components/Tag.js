@@ -6,16 +6,18 @@ class Tag extends React.PureComponent {
     constructor(props) {
         super(props);
         this.sanitize = this.sanitize.bind(this);
-        this.doKeyPress = this.doKeyPress.bind(this);
+        this.doKeyDown = this.doKeyDown.bind(this);
     }
 
+    // noinspection JSMethodCanBeStatic
     sanitize(val) {
         return val.trim();
     }
 
-    doKeyPress(e) {
+    doKeyDown(e) {
         switch (e.key) {
             case "Delete":
+            case "Backspace":
                 this.props.doDelete();
                 break;
         }
@@ -29,7 +31,7 @@ class Tag extends React.PureComponent {
         return <EditInPlace value={tag}
                             sanitize={this.sanitize}
                             onCommit={onRename}
-                            onKeyPress={this.doKeyPress}
+                            onKeyDown={this.doKeyDown}
         />;
     }
 }

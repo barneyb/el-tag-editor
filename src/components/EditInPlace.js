@@ -53,7 +53,7 @@ class EditInPlace extends React.PureComponent {
     render() {
         const {
             value,
-            onKeyPress,
+            onKeyDown,
         } = this.props;
         const {
             mode,
@@ -62,7 +62,7 @@ class EditInPlace extends React.PureComponent {
         if (mode === VIEW) {
             return <Label label={value}
                           onClick={this.startEditing}
-                          onKeyPress={onKeyPress}
+                          onKeyDown={onKeyDown}
             />;
         }
         return <Input value={newValue}

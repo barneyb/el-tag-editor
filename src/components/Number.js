@@ -7,7 +7,7 @@ class Number extends React.PureComponent {
         super(props);
         this.sanitize = this.sanitize.bind(this);
         this.doCommit = this.doCommit.bind(this);
-        this.doKeyPress = this.doKeyPress.bind(this);
+        this.doKeyDown = this.doKeyDown.bind(this);
     }
 
     // noinspection JSMethodCanBeStatic
@@ -34,9 +34,10 @@ class Number extends React.PureComponent {
         this.props.onSet(parseFloat(val));
     }
 
-    doKeyPress(e) {
+    doKeyDown(e) {
         switch (e.key) {
             case "Delete":
+            case "Backspace":
                 this.props.onSet();
                 break;
         }
@@ -49,7 +50,7 @@ class Number extends React.PureComponent {
         return <EditInPlace value={n}
                             sanitize={this.sanitize}
                             onCommit={this.doCommit}
-                            onKeyPress={this.doKeyPress}
+                            onKeyDown={this.doKeyDown}
         />;
     }
 }

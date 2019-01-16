@@ -4,19 +4,19 @@ class Label extends Component {
 
     constructor(props) {
         super(props);
-        this.doKeyPress = this.doKeyPress.bind(this);
+        this.doKeyDown = this.doKeyDown.bind(this);
     }
 
-    doKeyPress(e) {
+    doKeyDown(e) {
         const {
             onClick,
-            onKeyPress,
+            onKeyDown,
         } = this.props;
         if (onClick && e.key === "Enter") {
             onClick();
             return;
         }
-        onKeyPress && onKeyPress(e);
+        onKeyDown && onKeyDown(e);
     }
 
     render() {
@@ -30,7 +30,7 @@ class Label extends Component {
                      style={{
                          marginLeft: "3px",
                      }}
-                     onKeyPress={this.doKeyPress}>
+                     onKeyDown={this.doKeyDown}>
         {label}
     </span>;
     }
