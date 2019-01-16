@@ -19,6 +19,7 @@ const Pill = ({
     }}>
         <Tag tag={tag}
              onRename={onRename}
+             doDelete={onDelete}
         />
         {n != null && n !== 1 && <Number n={n}
                                          onSet={onSetNumber}

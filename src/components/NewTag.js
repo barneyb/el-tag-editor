@@ -26,7 +26,10 @@ class NewTag extends React.PureComponent {
     }
 
     doCommit() {
-        this.props.onCommit(this.state.value);
+        const value = this.state.value;
+        if (value && value.trim().length > 0) {
+            this.props.onCommit(value.trim());
+        }
         this.clear();
     }
 

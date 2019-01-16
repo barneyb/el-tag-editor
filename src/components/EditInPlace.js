@@ -31,7 +31,7 @@ class EditInPlace extends React.PureComponent {
 
     updateEdit(newValue) {
         const {
-            sanitize
+            sanitize,
         } = this.props;
         this.setState({
             newValue: sanitize ? sanitize(newValue) : newValue,
@@ -53,6 +53,7 @@ class EditInPlace extends React.PureComponent {
     render() {
         const {
             value,
+            onKeyPress,
         } = this.props;
         const {
             mode,
@@ -61,6 +62,7 @@ class EditInPlace extends React.PureComponent {
         if (mode === VIEW) {
             return <Label label={value}
                           onClick={this.startEditing}
+                          onKeyPress={onKeyPress}
             />;
         }
         return <Input value={newValue}
