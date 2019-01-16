@@ -5,7 +5,32 @@ class Number extends React.PureComponent {
 
     constructor(props) {
         super(props);
+        this.sanitize = this.sanitize.bind(this);
+        this.doCommit = this.doCommit.bind(this);
         this.doKeyPress = this.doKeyPress.bind(this);
+    }
+
+    sanitize(val) {
+        val = val.trim();
+        let result = "";
+        let foundPeriod = false;
+        for (let i = 0; i < val.length; i++) {
+            const c = val.charAt(i);
+            if (c === ".") {
+                if (foundPeriod) {
+                    continue;
+                }
+                foundPeriod = true;
+            } else if (c < "0" || c > "9") {
+                continue;
+            }
+            result += c;
+        }
+        return result;
+    }
+
+    doCommit(val) {
+        this.props.onSet(parseFloat(val));
     }
 
     doKeyPress(e) {
@@ -19,10 +44,10 @@ class Number extends React.PureComponent {
     render() {
         const {
             n,
-            onSet,
         } = this.props;
         return <EditInPlace value={n}
-                            onCommit={onSet}
+                            sanitize={this.sanitize}
+                            onCommit={this.doCommit}
                             onKeyPress={this.doKeyPress}
         />;
     }

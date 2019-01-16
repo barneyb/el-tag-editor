@@ -5,7 +5,12 @@ class Tag extends React.PureComponent {
 
     constructor(props) {
         super(props);
+        this.sanitize = this.sanitize.bind(this);
         this.doKeyPress = this.doKeyPress.bind(this);
+    }
+
+    sanitize(val) {
+        return val.trim();
     }
 
     doKeyPress(e) {
@@ -22,6 +27,7 @@ class Tag extends React.PureComponent {
             onRename,
         } = this.props;
         return <EditInPlace value={tag}
+                            sanitize={this.sanitize}
                             onCommit={onRename}
                             onKeyPress={this.doKeyPress}
         />;
