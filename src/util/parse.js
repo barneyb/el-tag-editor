@@ -6,6 +6,7 @@ const parse = tags =>
             if (t.indexOf(":") < 0) {
                 return {
                     tag: t,
+                    number: 1,
                 };
             }
             const parts = t.split(":");
