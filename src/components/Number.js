@@ -10,6 +10,7 @@ class Number extends React.PureComponent {
         this.doKeyPress = this.doKeyPress.bind(this);
     }
 
+    // noinspection JSMethodCanBeStatic
     sanitize(val) {
         val = val.trim();
         let result = "";
@@ -36,7 +37,7 @@ class Number extends React.PureComponent {
     doKeyPress(e) {
         switch (e.key) {
             case "Delete":
-                this.props.onSet();
+                this.props.onSet(1);
                 break;
         }
     }
