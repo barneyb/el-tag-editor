@@ -47,7 +47,8 @@ class Number extends React.PureComponent {
         const {
             n,
         } = this.props;
-        return <EditInPlace value={n}
+        return <EditInPlace className="EditInPlace number"
+                            value={n}
                             sanitize={this.sanitize}
                             onCommit={this.doCommit}
                             onKeyDown={this.doKeyDown}

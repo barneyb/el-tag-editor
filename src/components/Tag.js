@@ -28,7 +28,8 @@ class Tag extends React.PureComponent {
             tag,
             onRename,
         } = this.props;
-        return <EditInPlace value={tag}
+        return <EditInPlace className="EditInPlace tag"
+                            value={tag}
                             sanitize={this.sanitize}
                             onCommit={onRename}
                             onKeyDown={this.doKeyDown}

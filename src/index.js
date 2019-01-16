@@ -119,14 +119,9 @@ class index extends React.PureComponent {
                        setTagNumber={this.setTagNumber}
                        deleteTag={this.deleteTag} />
             <hr />
+            <pre>{JSON.stringify(this.state.tags, null, 3)}</pre>
+            <hr />
             <code>{unparse(this.state.tags)}</code>
-            <pre style={{
-                padding: "5px",
-                border: "1px solid #ff0",
-                backgroundColor: "#ffe",
-            }}>
-                {JSON.stringify(this.state.tags, null, 3)}
-            </pre>
         </div>;
     }
 

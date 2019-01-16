@@ -54,18 +54,21 @@ class EditInPlace extends React.PureComponent {
         const {
             value,
             onKeyDown,
+            className,
         } = this.props;
         const {
             mode,
             newValue,
         } = this.state;
         if (mode === VIEW) {
-            return <Label label={value}
+            return <Label className={className}
+                          label={value}
                           onClick={this.startEditing}
                           onKeyDown={onKeyDown}
             />;
         }
-        return <Input value={newValue}
+        return <Input className={className}
+                      value={newValue}
                       onChange={this.updateEdit}
                       onCancel={this.cancelEdit}
                       onCommit={this.commitEdit}

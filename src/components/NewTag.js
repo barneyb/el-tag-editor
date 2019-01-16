@@ -39,6 +39,8 @@ class NewTag extends React.PureComponent {
 
     render() {
         return <Input value={this.state.value}
+                      placeholder="add..."
+                      cancelOnBlur={false}
                       onChange={this.doChange}
                       onCommit={this.doCommit}
                       onCancel={this.doCancel}

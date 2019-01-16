@@ -3,11 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>EL Tag Editor</title>
+    <!--suppress CssUnusedSymbol -->
     <style>
+        /* "application" styles */
         #tags { padding: 10px;
             border: 1px solid #900 }
         textarea { width: 400px;
             height: 80px }
+        /* candidate component styles */
+        .TagEditor {
+            padding: 3px;
+            border: 1px solid #eee }
+        .Pill {
+            display: inline-block;
+            padding: 1px 3px;
+            margin: 1px 5px 1px 0;
+            border: 1px solid #09f;
+            background-color: #f0f7ff }
+        .Pill input {
+            border-width: 0 }
+        .Label {
+            display: inline-block;
+            margin: 1px 3px }
+        .EditInPlace.number input {
+            width: 4em }
+        .Input {
+            display: inline-block }
     </style>
 </head>
 <body>

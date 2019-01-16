@@ -34,10 +34,7 @@ class TagEditor extends React.PureComponent {
             setTagNumber,
             deleteTag,
         } = this.props;
-        return <div style={{
-            padding: "3px",
-            border: "1px solid #eee",
-        }}>
+        return <div className="TagEditor">
             {tags.map(t =>
                 <Pill key={t.tag}
                       onRename={newTag => renameTag(t.tag, newTag)}

@@ -24,12 +24,11 @@ class Label extends Component {
             label,
             preventFocus,
             onClick,
+            className,
         } = this.props;
-        return <span onClick={onClick}
+        return <span className={"Label " + className}
+                     onClick={onClick}
                      tabIndex={preventFocus ? -1 : 0}
-                     style={{
-                         marginLeft: "3px",
-                     }}
                      onKeyDown={this.doKeyDown}>
         {label}
     </span>;

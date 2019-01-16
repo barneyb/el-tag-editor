@@ -6,15 +6,20 @@ class Input extends React.PureComponent {
         super(props);
         this.onKeyDown = this.onKeyDown.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.onBlur = this.onBlur.bind(this);
     }
 
     onKeyDown(e) {
+        const {
+            onCancel,
+            onCommit,
+        } = this.props;
         switch (e.key) {
             case "Escape":
-                this.props.onCancel();
+                onCancel && onCancel();
                 break;
             case "Enter":
-                this.props.onCommit();
+                onCommit && onCommit();
                 break;
         }
     }
@@ -23,21 +28,34 @@ class Input extends React.PureComponent {
         this.props.onChange(e.target.value);
     }
 
+    onBlur() {
+        const {
+            cancelOnBlur,
+            onCancel,
+        } = this.props;
+        cancelOnBlur && onCancel && onCancel();
+    }
+
     render() {
-        return <div style={{
-            display: "inline-block",
-            padding: "1px 3px",
-            margin: "1px 5px 1px 0",
-            border: "1px solid #d00",
-            backgroundColor: "#fee",
-        }}>
+        const {
+            value,
+            placeholder,
+            className,
+        } = this.props;
+        return <span className={"Input " + className}>
             <input onKeyDown={this.onKeyDown}
                    onChange={this.onChange}
+                   onBlur={this.onBlur}
                    autoFocus={true}
-                   value={this.props.value}
+                   value={value}
+                   placeholder={placeholder}
             />
-        </div>;
+        </span>;
     }
 }
+
+Input.defaultProps = {
+    cancelOnBlur: true,
+};
 
 export default Input
