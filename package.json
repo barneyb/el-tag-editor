@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "description": "",
   "private": true,
-  "main": "dist/TagEditor.js",
   "module": "src/index.js",
   "peerDependencies": {
     "react": "16.7.0"

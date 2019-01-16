@@ -9,7 +9,7 @@ module.exports = env => {
         mode: 'production',
         entry: './src/index.js',
         output: {
-            filename: 'TagEditor.js',
+            filename: 'TagEditor.[contenthash].js',
             library: 'TagEditor',
             libraryTarget: 'umd',
             path: path.resolve(__dirname, 'dist'),
