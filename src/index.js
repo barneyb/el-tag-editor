@@ -13,6 +13,7 @@ class index extends React.PureComponent {
             tags: parse(props.tagList),
         };
         this.deleteTag = this.deleteTag.bind(this);
+        this.addTag = this.addTag.bind(this);
     }
 
     // Yes, this is as-intended. This bridges into React from the non-React
@@ -24,6 +25,30 @@ class index extends React.PureComponent {
         this.setState(parse(props.tagList))
     }
 
+    addTag(tag) {
+        this.setState(state => {
+            const i = state.tags.findIndex(it => it.tag === tag);
+            const newTags = state.tags.slice(0);
+            if (i < 0) {
+                // new
+                newTags.push({
+                    tag,
+                })
+            } else {
+                const t = newTags[i];
+                newTags[i] = {
+                    tag,
+                    number: (t.number == null ? 1 : t.number) + 1,
+                }
+            }
+            return {
+                tags: newTags,
+            };
+        }, () => {
+            this.props.onChange(unparse(this.state.tags));
+        })
+    }
+
     deleteTag(tag) {
         this.setState(state => {
             const i = state.tags.findIndex(it => it.tag === tag);
@@ -32,7 +57,9 @@ class index extends React.PureComponent {
             }
             const newTags = state.tags.slice(0);
             newTags.splice(i, 1);
-            return {tags: newTags};
+            return {
+                tags: newTags,
+            };
         }, () => {
             this.props.onChange(unparse(this.state.tags));
         })
@@ -41,6 +68,7 @@ class index extends React.PureComponent {
     render() {
         return <div>
             <TagEditor tags={this.state.tags}
+                       addTag={this.addTag}
                        deleteTag={this.deleteTag} />
             <hr />
             <code>{unparse(this.state.tags)}</code>

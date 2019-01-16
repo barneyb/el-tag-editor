@@ -1,7 +1,8 @@
 import React from "react";
 
-const Tag = props => {
-    return <span>{props.tag}</span>;
-};
+const Tag = ({
+                 tag,
+             }) =>
+    <span>{tag}</span>;
 
 export default Tag;

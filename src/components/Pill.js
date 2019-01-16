@@ -2,13 +2,12 @@ import React from "react";
 import Tag from "./Tag";
 import Number from "./Number";
 
-const Pill = props => {
-    const {
-        tag,
-        number: n,
-        doDelete,
-    } = props;
-    return <code style={{
+const Pill = ({
+                  tag,
+                  number: n,
+                  doDelete,
+              }) =>
+    <code style={{
         display: "inline-block",
         padding: "1px 3px",
         margin: "1px 5px 1px 0",
@@ -26,6 +25,5 @@ const Pill = props => {
                 }}>x
         </button>
     </code>;
-};
 
 export default Pill;

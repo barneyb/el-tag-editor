@@ -1,12 +1,13 @@
 import React from "react";
 import Pill from "./Pill";
+import AddTag from "./AddTag";
 
-const TagEditor = props => {
-    const {
-        tags,
-        deleteTag,
-    } = props;
-    return <div style={{
+const TagEditor = ({
+                       tags,
+                       deleteTag,
+                       addTag,
+                   }) =>
+    <div style={{
         padding: "3px",
         border: "1px solid #eee",
     }}>
@@ -15,7 +16,7 @@ const TagEditor = props => {
                   doDelete={() => deleteTag(t.tag)}
                   {...t}
             />)}
+        <AddTag add={addTag} />
     </div>;
-};
 
 export default TagEditor;
