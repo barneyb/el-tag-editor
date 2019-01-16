@@ -27,7 +27,9 @@ class index extends React.PureComponent {
     deleteTag(tag) {
         this.setState(state => {
             const i = state.tags.findIndex(it => it.tag === tag);
-            if (i < 0) return;
+            if (i < 0) {
+                return;
+            }
             const newTags = state.tags.slice(0);
             newTags.splice(i, 1);
             return {tags: newTags};
@@ -37,8 +39,19 @@ class index extends React.PureComponent {
     }
 
     render() {
-        return <TagEditor tags={this.state.tags}
-                          deleteTag={this.deleteTag} />;
+        return <div>
+            <TagEditor tags={this.state.tags}
+                       deleteTag={this.deleteTag} />
+            <hr />
+            <code>{unparse(this.state.tags)}</code>
+            <pre style={{
+                padding: "5px",
+                border: "1px solid #ff0",
+                backgroundColor: "#ffe",
+            }}>
+                {JSON.stringify(this.state.tags, null, 3)}
+            </pre>
+        </div>;
     }
 
 }
