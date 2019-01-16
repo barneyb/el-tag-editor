@@ -29,18 +29,17 @@ class index extends React.PureComponent {
 
     addTag(tag) {
         this.setState(state => {
-            const i = state.tags.findIndex(it => it.tag === tag);
+            const t = parse(tag)[0];
+            const i = state.tags.findIndex(it => it.tag === t.tag);
             const newTags = state.tags.slice(0);
             if (i < 0) {
                 // new
-                newTags.push({
-                    tag,
-                })
+                newTags.push(t)
             } else {
-                const t = newTags[i];
+                const existing = newTags[i];
                 newTags[i] = {
-                    tag,
-                    number: (t.number == null ? 1 : t.number) + 1,
+                    ...t,
+                    number: existing.number + t.number,
                 }
             }
             return {
@@ -60,7 +59,7 @@ class index extends React.PureComponent {
             const newTags = state.tags.slice(0);
             newTags[i] = {
                 ...newTags[i],
-                tag: newTag,
+                ...parse(newTag)[0],
             };
             return {
                 tags: newTags,
@@ -70,7 +69,7 @@ class index extends React.PureComponent {
         })
     }
 
-    setTagNumber(tag, number) {
+    setTagNumber(tag, number = 1) {
         this.setState(state => {
             const i = state.tags.findIndex(it => it.tag === tag);
             if (i < 0) {
