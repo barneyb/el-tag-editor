@@ -1,6 +1,6 @@
 import React from "react";
 import TagEditor from "./components/TagEditor";
-import parse from "./util/parse";
+import parse, { parseTag } from "./util/parse";
 import unparse from "./util/unparse";
 
 // this is the entry point, so it'll never be used
@@ -29,7 +29,7 @@ class index extends React.PureComponent {
 
     addTag(tag) {
         this.setState(state => {
-            const t = parse(tag)[0];
+            const t = parseTag(tag);
             const i = state.tags.findIndex(it => it.tag === t.tag);
             const newTags = state.tags.slice(0);
             if (i < 0) {
@@ -57,9 +57,15 @@ class index extends React.PureComponent {
                 return;
             }
             const newTags = state.tags.slice(0);
+            const t = parseTag(newTag);
+            if (! t.explicit) {
+                // let whatever was there before remain
+                delete t.number;
+                delete t.explicit;
+            }
             newTags[i] = {
                 ...newTags[i],
-                ...parse(newTag)[0],
+                ...t,
             };
             return {
                 tags: newTags,
