@@ -14,6 +14,7 @@ class index extends React.PureComponent {
         };
         this.addTag = this.addTag.bind(this);
         this.renameTag = this.renameTag.bind(this);
+        this.setTagNumber = this.setTagNumber.bind(this);
         this.deleteTag = this.deleteTag.bind(this);
     }
 
@@ -69,6 +70,25 @@ class index extends React.PureComponent {
         })
     }
 
+    setTagNumber(tag, number) {
+        this.setState(state => {
+            const i = state.tags.findIndex(it => it.tag === tag);
+            if (i < 0) {
+                return;
+            }
+            const newTags = state.tags.slice(0);
+            newTags[i] = {
+                ...newTags[i],
+                number,
+            };
+            return {
+                tags: newTags,
+            };
+        }, () => {
+            this.props.onChange(unparse(this.state.tags));
+        })
+    }
+
     deleteTag(tag) {
         this.setState(state => {
             const i = state.tags.findIndex(it => it.tag === tag);
@@ -90,6 +110,7 @@ class index extends React.PureComponent {
             <TagEditor tags={this.state.tags}
                        addTag={this.addTag}
                        renameTag={this.renameTag}
+                       setTagNumber={this.setTagNumber}
                        deleteTag={this.deleteTag} />
             <hr />
             <code>{unparse(this.state.tags)}</code>

@@ -1,12 +1,13 @@
 import React from "react";
+import EditInPlace from "./EditInPlace";
 
-const Tag = ({
-                 n,
-             }) =>
-    <span style={{
-        marginLeft: "3px",
-        paddingLeft: "3px",
-        borderLeft: "1px solid #09f",
-    }}>{n}</span>;
+const Number = ({
+                    n,
+                    onSet,
+                }) =>
+    <EditInPlace value={n}
+                 onCommit={onSet}
+    />;
 
-export default Tag;
+
+export default Number;

@@ -1,12 +1,14 @@
 import React from "react";
 import Tag from "./Tag";
 import Number from "./Number";
+import Label from "./Label";
 
 const Pill = ({
                   tag,
                   number: n,
-                  doRename,
-                  doDelete,
+                  onRename,
+                  onSetNumber,
+                  onDelete,
               }) =>
     <code style={{
         display: "inline-block",
@@ -16,17 +18,15 @@ const Pill = ({
         backgroundColor: "#f0f7ff",
     }}>
         <Tag tag={tag}
-             onRename={doRename}
+             onRename={onRename}
         />
-        {n != null && n !== 1 && <Number n={n} />}
-        <button onClick={doDelete}
-                style={{
-                    marginLeft: "3px",
-                    borderWidth: 0,
-                    borderLeft: "1px solid #09f",
-                    backgroundColor: "inherit",
-                }}>x
-        </button>
+        {n != null && n !== 1 && <Number n={n}
+                                         onSet={onSetNumber}
+        />}
+        <Label label="x"
+               onClick={onDelete}
+               preventFocus
+        />
     </code>;
 
 export default Pill;

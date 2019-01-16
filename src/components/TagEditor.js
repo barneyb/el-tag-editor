@@ -4,9 +4,10 @@ import NewTag from "./NewTag";
 
 const TagEditor = ({
                        tags,
-                       renameTag,
-                       deleteTag,
                        addTag,
+                       renameTag,
+                       setTagNumber,
+                       deleteTag,
                    }) =>
     <div style={{
         padding: "3px",
@@ -14,8 +15,9 @@ const TagEditor = ({
     }}>
         {tags.map(t =>
             <Pill key={t.tag}
-                  doRename={newTag => renameTag(t.tag, newTag)}
-                  doDelete={() => deleteTag(t.tag)}
+                  onRename={newTag => renameTag(t.tag, newTag)}
+                  onSetNumber={number => setTagNumber(t.tag, number)}
+                  onDelete={() => deleteTag(t.tag)}
                   {...t}
             />)}
         <NewTag onCommit={addTag} />
