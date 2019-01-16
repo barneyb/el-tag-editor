@@ -5,6 +5,7 @@ import Number from "./Number";
 const Pill = ({
                   tag,
                   number: n,
+                  doRename,
                   doDelete,
               }) =>
     <code style={{
@@ -14,7 +15,9 @@ const Pill = ({
         border: "1px solid #09f",
         backgroundColor: "#f0f7ff",
     }}>
-        <Tag tag={tag} />
+        <Tag tag={tag}
+             onRename={doRename}
+        />
         {n != null && n !== 1 && <Number n={n} />}
         <button onClick={doDelete}
                 style={{

@@ -12,8 +12,9 @@ class index extends React.PureComponent {
         this.state = {
             tags: parse(props.tagList),
         };
-        this.deleteTag = this.deleteTag.bind(this);
         this.addTag = this.addTag.bind(this);
+        this.renameTag = this.renameTag.bind(this);
+        this.deleteTag = this.deleteTag.bind(this);
     }
 
     // Yes, this is as-intended. This bridges into React from the non-React
@@ -49,6 +50,25 @@ class index extends React.PureComponent {
         })
     }
 
+    renameTag(tag, newTag) {
+        this.setState(state => {
+            const i = state.tags.findIndex(it => it.tag === tag);
+            if (i < 0) {
+                return;
+            }
+            const newTags = state.tags.slice(0);
+            newTags[i] = {
+                ...newTags[i],
+                tag: newTag,
+            };
+            return {
+                tags: newTags,
+            };
+        }, () => {
+            this.props.onChange(unparse(this.state.tags));
+        })
+    }
+
     deleteTag(tag) {
         this.setState(state => {
             const i = state.tags.findIndex(it => it.tag === tag);
@@ -69,6 +89,7 @@ class index extends React.PureComponent {
         return <div>
             <TagEditor tags={this.state.tags}
                        addTag={this.addTag}
+                       renameTag={this.renameTag}
                        deleteTag={this.deleteTag} />
             <hr />
             <code>{unparse(this.state.tags)}</code>

@@ -1,9 +1,10 @@
 import React from "react";
 import Pill from "./Pill";
-import AddTag from "./AddTag";
+import NewTag from "./NewTag";
 
 const TagEditor = ({
                        tags,
+                       renameTag,
                        deleteTag,
                        addTag,
                    }) =>
@@ -13,10 +14,11 @@ const TagEditor = ({
     }}>
         {tags.map(t =>
             <Pill key={t.tag}
+                  doRename={newTag => renameTag(t.tag, newTag)}
                   doDelete={() => deleteTag(t.tag)}
                   {...t}
             />)}
-        <AddTag add={addTag} />
+        <NewTag onCommit={addTag} />
     </div>;
 
 export default TagEditor;

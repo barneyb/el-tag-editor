@@ -1,36 +1,26 @@
 import React from 'react';
 
-class AddTag extends React.PureComponent {
+class Input extends React.PureComponent {
 
     constructor(props) {
         super(props);
-        this.state = {
-            value: "",
-        };
         this.onKeyDown = this.onKeyDown.bind(this);
         this.onChange = this.onChange.bind(this);
-    }
-
-    clear() {
-        this.setState({value: ""});
     }
 
     onKeyDown(e) {
         switch (e.key) {
             case "Escape":
-                this.clear();
+                this.props.onCancel();
                 break;
             case "Enter":
-                this.props.add(this.state.value);
-                this.clear();
+                this.props.onCommit();
                 break;
         }
     }
 
     onChange(e) {
-        this.setState({
-            value: e.target.value,
-        });
+        this.props.onChange(e.target.value);
     }
 
     render() {
@@ -44,10 +34,10 @@ class AddTag extends React.PureComponent {
             <input onKeyDown={this.onKeyDown}
                    onChange={this.onChange}
                    autoFocus={true}
-                   value={this.state.value}
+                   value={this.props.value}
             />
         </div>;
     }
 }
 
-export default AddTag
+export default Input
