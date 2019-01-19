@@ -78,6 +78,7 @@
                 props.tagList = newTagList;
                 props.nextTags = null;
                 delay(function() {
+                    if (props.tagList !== newTagList) return;
                     var list = newTagList.split(",")
                         .map(function(it) { return it.trim() })
                         .map(function(it) { return it.indexOf(':') < 0
