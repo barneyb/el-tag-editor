@@ -48,6 +48,9 @@
 <!--suppress ES6ConvertVarToLetConst -->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function() {
+        function delay(work) {
+            setTimeout(work, 200 + Math.random() * 500)
+        }
         var ajax = {
             "/tags": ["gym", "weights", "treadmill", "rowing machine", "stationary bicycle", "yoga", "stair climber", "basketball", "racket ball", "tennis", "swimming", "hot tub", "sauna", "home"],
             "/next?q=": [
@@ -73,7 +76,7 @@
             tagList: document.querySelector("#tags textarea").value,
             onChange: function(newTagList) {
                 props.tagList = newTagList;
-                setTimeout(function() {
+                delay(function() {
                     var list = newTagList.split(",")
                         .map(function(it) { return it.trim() })
                         .map(function(it) { return it.indexOf(':') < 0
@@ -83,12 +86,18 @@
                         .join(",");
                     props.nextTags = ajax["/next?q=" + list] || [];
                     update();
-                }, 1000);
+                });
                 update();
             },
-            allTags: ajax["/tags"],
-            nextTags: ajax["/next?q="],
         };
+        delay(function() {
+            props.allTags = ajax["/tags"];
+            update();
+        });
+        delay(function() {
+            props.nextTags = ajax["/next?q="];
+            update();
+        });
         function update() {
             document.getElementById("result").innerText = props.tagList;
             // noinspection ES6ModulesDependencies
