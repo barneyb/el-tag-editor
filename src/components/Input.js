@@ -61,16 +61,16 @@ class Input extends React.PureComponent {
                 });
                 break;
             case "Tab":
-                e.preventDefault();
                 if (this.state.showCompletions && this.props.completions) {
+                    e.preventDefault();
                     // assume pre-sanitized....
-                    onChange(this.props.completions[this.state.selectedIndex])
+                    onChange(this.props.completions[this.state.selectedIndex]);
                 }
                 break;
             case "Enter":
                 if (this.state.showCompletions && this.props.completions) {
                     // assume pre-sanitized....
-                    onChange(this.props.completions[this.state.selectedIndex])
+                    onChange(this.props.completions[this.state.selectedIndex]);
                 }
                 onCommit && onCommit();
                 break;
