@@ -5,7 +5,7 @@ class Input extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            showCompletions: false,
+            showCompletions: true,
             selectedIndex: 0,
         };
         this.doKeyDown = this.doKeyDown.bind(this);
@@ -16,15 +16,10 @@ class Input extends React.PureComponent {
     static getDerivedStateFromProps(props, state) {
         if (props.value !== state.prevValue) {
             return {
-                showCompletions: props.completions != null,
+                showCompletions: true,
                 selectedIndex: 0,
                 prevValue: props.value,
             };
-        }
-        if (state.showCompletions && props.completions == null) {
-            return {
-                showCompletions: false,
-            }
         }
         return null; // do nothing
     }
@@ -98,13 +93,14 @@ class Input extends React.PureComponent {
                    value={value}
                    placeholder={placeholder}
             />
-            {showCompletions && <div className="Completions"
-                                 style={{
-                                     position: "absolute",
-                                 }}>
+            {completions && showCompletions && <div className="Completions"
+                                                    style={{
+                                                        position: "absolute",
+                                                    }}>
                 <ul>
                     {completions.map((it, i) =>
-                        <li key={it} className={selectedIndex === i ? "active" : null}>{it}</li>,
+                        <li key={it}
+                            className={selectedIndex === i ? "active" : null}>{it}</li>,
                     )}
                 </ul>
             </div>}
