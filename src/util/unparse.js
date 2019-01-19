@@ -5,6 +5,8 @@ export const unparseTag = t => {
 };
 
 const unparse = tags =>
-    tags.map(unparseTag).join(", ");
+    tags.map(unparseTag)
+        .map(t => t + ", ")
+        .join();
 
 export default unparse;
