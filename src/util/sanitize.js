@@ -1,4 +1,14 @@
-export const sanitizeTag = val =>
+export const sanitizeCompoundTag = val => {
+    const i = val.indexOf(":");
+    if (i < 0) {
+        return sanitizeTagName(val);
+    }
+    const tag = val.substr(0, i);
+    const num = val.substr(i + 1);
+    return sanitizeTagName(tag) + ":" + sanitizeNumber(num);
+};
+
+export const sanitizeTagName = val =>
     val.replace(/,/g, '');
 
 export const sanitizeNumber = val => {

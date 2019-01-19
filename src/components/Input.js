@@ -25,7 +25,9 @@ class Input extends React.PureComponent {
     }
 
     onChange(e) {
-        this.props.onChange(e.target.value);
+        const v = e.target.value;
+        const sanitize = this.props.sanitize;
+        this.props.onChange(sanitize ? sanitize(v) : v);
     }
 
     onBlur() {

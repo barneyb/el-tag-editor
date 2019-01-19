@@ -31,11 +31,8 @@ class EditInPlace extends React.PureComponent {
     }
 
     updateEdit(newValue) {
-        const {
-            sanitize,
-        } = this.props;
         this.setState({
-            newValue: sanitize ? sanitize(newValue) : newValue,
+            newValue,
         });
     }
 
@@ -58,6 +55,7 @@ class EditInPlace extends React.PureComponent {
             value,
             onKeyDown,
             className,
+            sanitize,
         } = this.props;
         const {
             mode,
@@ -73,6 +71,7 @@ class EditInPlace extends React.PureComponent {
         }
         return <Input className={className}
                       value={newValue}
+                      sanitize={sanitize}
                       onChange={this.updateEdit}
                       onCancel={this.cancelEdit}
                       onCommit={this.commitEdit}

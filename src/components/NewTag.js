@@ -1,5 +1,6 @@
 import React from "react";
 import Input from "./Input";
+import { sanitizeCompoundTag } from "../util/sanitize";
 
 class NewTag extends React.PureComponent {
 
@@ -41,6 +42,7 @@ class NewTag extends React.PureComponent {
         return <Input value={this.state.value}
                       placeholder="add..."
                       cancelOnBlur={false}
+                      sanitize={sanitizeCompoundTag}
                       onChange={this.doChange}
                       onCommit={this.doCommit}
                       onCancel={this.doCancel}
