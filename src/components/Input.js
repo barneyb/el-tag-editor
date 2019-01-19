@@ -89,6 +89,9 @@ class Input extends React.PureComponent {
             onCancel,
         } = this.props;
         cancelOnBlur && onCancel && onCancel();
+        this.setState({
+            showCompletions: false,
+        })
     }
 
     render() {
@@ -97,6 +100,7 @@ class Input extends React.PureComponent {
             placeholder,
             className,
             completions,
+            autoFocus,
         } = this.props;
         const {
             showCompletions,
@@ -109,7 +113,7 @@ class Input extends React.PureComponent {
             <input onKeyDown={this.doKeyDown}
                    onChange={this.doChange}
                    onBlur={this.doBlur}
-                   autoFocus={true}
+                   autoFocus={autoFocus}
                    value={value}
                    placeholder={placeholder}
             />
@@ -129,6 +133,7 @@ class Input extends React.PureComponent {
 }
 
 Input.defaultProps = {
+    autoFocus: true,
     cancelOnBlur: true,
 };
 
