@@ -12,6 +12,7 @@ class EditInPlace extends React.PureComponent {
         this.state = {
             mode: VIEW,
         };
+        this.labelRef = React.createRef();
         this.startEditing = this.startEditing.bind(this);
         this.updateEdit = this.updateEdit.bind(this);
         this.commitEdit = this.commitEdit.bind(this);
@@ -47,7 +48,9 @@ class EditInPlace extends React.PureComponent {
         this.setState({
             mode: VIEW,
             newValue: undefined,
-        });
+        }, () =>
+            this.labelRef.current.focus()
+        );
     }
 
     render() {
@@ -65,6 +68,7 @@ class EditInPlace extends React.PureComponent {
                           label={value}
                           onClick={this.startEditing}
                           onKeyDown={onKeyDown}
+                          ref={this.labelRef}
             />;
         }
         return <Input className={className}

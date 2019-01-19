@@ -4,6 +4,7 @@ class Label extends Component {
 
     constructor(props) {
         super(props);
+        this.ref = React.createRef();
         this.doKeyDown = this.doKeyDown.bind(this);
     }
 
@@ -19,6 +20,10 @@ class Label extends Component {
         onKeyDown && onKeyDown(e);
     }
 
+    focus() {
+        this.ref.current.focus();
+    }
+
     render() {
         const {
             label,
@@ -29,7 +34,9 @@ class Label extends Component {
         return <span className={"Label " + className}
                      onClick={onClick}
                      tabIndex={preventFocus ? -1 : 0}
-                     onKeyDown={this.doKeyDown}>
+                     onKeyDown={this.doKeyDown}
+                     ref={this.ref}
+        >
         {label}
     </span>;
     }
