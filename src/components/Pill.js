@@ -24,7 +24,7 @@ class Pill extends React.PureComponent {
             onSetNumber,
             onDelete,
         } = this.props;
-        return <code className="Pill">
+        return <span className="Pill">
             <Tag tag={tag}
                  onRename={onRename}
                  doDelete={onDelete}
@@ -33,11 +33,11 @@ class Pill extends React.PureComponent {
                                  onSet={onSetNumber}
             />}
             <Label className="delete"
-                   label="x"
+                   label={"\u2715"}
                    onClick={this.doDeleteClick}
                    preventFocus
             />
-        </code>;
+        </span>;
     }
 }
 
