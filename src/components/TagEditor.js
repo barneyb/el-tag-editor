@@ -1,6 +1,7 @@
 import React from "react";
 import Pill from "./Pill";
 import NewTag from "./NewTag";
+import NextTags from "./NextTags";
 
 class TagEditor extends React.PureComponent {
 
@@ -41,25 +42,32 @@ class TagEditor extends React.PureComponent {
     render() {
         const {
             tags,
+            addTag,
             renameTag,
             setTagNumber,
             deleteTag,
             knownTags,
+            nextTags,
         } = this.props;
-        return <div className="TagEditor"
-                    onClick={this.doClick}
-                    ref={this.meRef}
-        >
-            {tags.map(t =>
-                <Pill key={t.tag}
-                      onRename={newTag => renameTag(t.tag, newTag)}
-                      onSetNumber={number => setTagNumber(t.tag, number)}
-                      onDelete={() => deleteTag(t.tag)}
-                      {...t}
-                />)}
-            <NewTag onCommit={this.doAdd}
-                    knownTags={knownTags}
-                    ref={this.addRef}
+        return <div>
+            <div className="TagEditor"
+                 onClick={this.doClick}
+                 ref={this.meRef}
+            >
+                {tags.map(t =>
+                    <Pill key={t.tag}
+                          onRename={newTag => renameTag(t.tag, newTag)}
+                          onSetNumber={number => setTagNumber(t.tag, number)}
+                          onDelete={() => deleteTag(t.tag)}
+                          {...t}
+                    />)}
+                <NewTag onCommit={this.doAdd}
+                        knownTags={knownTags}
+                        ref={this.addRef}
+                />
+            </div>
+            <NextTags nextTags={nextTags}
+                      onSelect={addTag}
             />
         </div>;
     }
