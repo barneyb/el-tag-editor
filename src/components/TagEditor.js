@@ -33,6 +33,7 @@ class TagEditor extends React.PureComponent {
             renameTag,
             setTagNumber,
             deleteTag,
+            knownTags,
         } = this.props;
         return <div className="TagEditor">
             {tags.map(t =>
@@ -42,7 +43,9 @@ class TagEditor extends React.PureComponent {
                       onDelete={() => deleteTag(t.tag)}
                       {...t}
                 />)}
-            <NewTag onCommit={this.addTagOrNumber} />
+            <NewTag onCommit={this.addTagOrNumber}
+                    knownTags={knownTags}
+            />
         </div>;
     }
 }

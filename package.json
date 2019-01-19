@@ -4,6 +4,9 @@
   "description": "",
   "private": true,
   "module": "src/index.js",
+  "dependencies": {
+    "memoize-one": "5.0.0"
+  },
   "peerDependencies": {
     "react": "16.7.0"
   },

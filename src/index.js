@@ -118,6 +118,8 @@ class index extends React.PureComponent {
                        renameTag={this.renameTag}
                        setTagNumber={this.setTagNumber}
                        deleteTag={this.deleteTag}
+                       knownTags={this.props.knownTags}
+                       nextTags={this.props.nextTags}
             />
             <hr />
             <pre>tags: {JSON.stringify(this.state.tags, null, 3)}</pre>
