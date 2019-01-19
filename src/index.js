@@ -113,21 +113,28 @@ class index extends React.PureComponent {
     }
 
     render() {
+        const {
+            debug,
+            knownTags,
+            nextTags,
+        } = this.props;
         return <div>
             <TagEditor tags={this.state.tags}
                        addTag={this.addTag}
                        renameTag={this.renameTag}
                        setTagNumber={this.setTagNumber}
                        deleteTag={this.deleteTag}
-                       knownTags={this.props.knownTags}
-                       nextTags={this.props.nextTags}
+                       knownTags={knownTags}
+                       nextTags={nextTags}
             />
-            <hr />
-            <pre>tags: {JSON.stringify(this.state.tags, null, 3)}</pre>
-            <hr />
-            <pre>props: {JSON.stringify(this.props, null, 3)}</pre>
-            <hr />
-            <code>list: {unparse(this.state.tags)}</code>
+            {debug && <React.Fragment>
+                <hr />
+                <pre>tags: {JSON.stringify(this.state.tags, null, 3)}</pre>
+                <hr />
+                <pre>props: {JSON.stringify(this.props, null, 3)}</pre>
+                <hr />
+                <code>list: {unparse(this.state.tags)}</code>
+            </React.Fragment>}
         </div>;
     }
 
