@@ -13,7 +13,7 @@
         /* candidate component styles */
         .TagEditor {
             padding: 3px;
-            border: 1px solid #eee }
+            border: 1px solid #ccc }
         .NewTag input {
             border-width: 0;
             outline-width: 0 }
@@ -85,7 +85,7 @@
         };
         var props = {
             debug: true,
-            tagList: document.querySelector("#tags textarea").value,
+            tagList: "",
             onChange: function(newTagList) {
                 if (props.tagList === newTagList) return;
                 props.tagList = newTagList;
@@ -98,6 +98,7 @@
                             ? it
                             : it.split(":")[0].trim();
                         })
+                        .filter(function(it) { return it.length > 0 })
                         .join(",");
                     props.nextTags = ajax["/next?q=" + list] || [];
                     update();
@@ -109,10 +110,7 @@
             props.knownTags = ajax["/tags"];
             update();
         });
-        delay(function() {
-            props.nextTags = ajax["/next?q="];
-            update();
-        });
+        props.onChange(document.querySelector("#tags textarea").value);
         function update() {
             document.getElementById("result").innerText = props.tagList;
             // noinspection ES6ModulesDependencies
