@@ -43,12 +43,6 @@ class NewTag extends React.PureComponent {
         this.getCompletions = memoize(filterTags);
     }
 
-    clear() {
-        this.setState({
-            value: "",
-        });
-    }
-
     doChange(tag) {
         this.setState({
             value: tag,
@@ -56,15 +50,27 @@ class NewTag extends React.PureComponent {
     }
 
     doCommit() {
-        const value = this.state.value;
-        if (value && value.trim().length > 0) {
-            this.props.onCommit(value.trim());
-        }
-        this.clear();
+        const {
+            onCommit,
+        } = this.props;
+        // this is complicated because doChange might be followed by doCommit in
+        // the same tick, and thus React will not have updated state by the time
+        // we get here. So we have to use setState to read the changed value.
+        this.setState(s => {
+            const value = s.value;
+            if (value && value.trim().length > 0) {
+                onCommit(value.trim());
+            }
+            return {
+                value: "",
+            }
+        });
     }
 
     doCancel() {
-        this.clear();
+        this.setState({
+            value: "",
+        });
     }
 
     render() {

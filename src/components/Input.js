@@ -26,6 +26,7 @@ class Input extends React.PureComponent {
 
     doKeyDown(e) {
         const {
+            onChange,
             onCancel,
             onCommit,
         } = this.props;
@@ -49,9 +50,28 @@ class Input extends React.PureComponent {
                 });
                 break;
             case "Escape":
-                onCancel && onCancel();
+                this.setState(s => {
+                    if (s.showCompletions) {
+                        return {
+                            showCompletions: false,
+                        }
+                    } else if (onCancel) {
+                        onCancel();
+                    }
+                });
+                break;
+            case "Tab":
+                e.preventDefault();
+                if (this.state.showCompletions && this.props.completions) {
+                    // assume pre-sanitized....
+                    onChange(this.props.completions[this.state.selectedIndex])
+                }
                 break;
             case "Enter":
+                if (this.state.showCompletions && this.props.completions) {
+                    // assume pre-sanitized....
+                    onChange(this.props.completions[this.state.selectedIndex])
+                }
                 onCommit && onCommit();
                 break;
         }
