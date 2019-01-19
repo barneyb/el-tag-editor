@@ -74,7 +74,7 @@ class NewTag extends React.PureComponent {
         const {
             knownTags,
         } = this.props;
-        const completions = knownTags// && value.trim().length > 0 // todo
+        const completions = knownTags && value.trim().length > 0
             ? this.getCompletions(knownTags, value)
             : null;
         return <Input value={value}
