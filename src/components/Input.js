@@ -61,6 +61,7 @@ class Input extends React.PureComponent {
                 });
                 break;
             case "Tab":
+                if (e.shiftKey) break;
                 if (this.state.showCompletions && this.props.completions) {
                     e.preventDefault();
                     // assume pre-sanitized....
