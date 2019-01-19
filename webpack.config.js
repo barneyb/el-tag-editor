@@ -1,6 +1,7 @@
 // noinspection NodeJsCodingAssistanceForCoreModules
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = env => {
@@ -16,6 +17,9 @@ module.exports = env => {
         },
         plugins: [
             new CleanWebpackPlugin(['dist']),
+            new CopyWebpackPlugin([
+                {from: "public/*.js", flatten: true},
+            ]),
             new HtmlWebpackPlugin({
                 template: './public/index.html',
             }),
