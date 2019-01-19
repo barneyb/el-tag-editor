@@ -35,8 +35,8 @@
 </head>
 <body>
 <div id="tags">
-    <!--suppress HtmlFormInputWithoutLabel -->
-    <textarea rel="to-be-replaced">gym, weights, treadmill:30, </textarea>
+    <!--suppress HtmlFormInputWithoutLabel, CheckTagEmptyBody -->
+    <textarea rel="to-be-replaced"></textarea>
 </div>
 <pre id="result">[ TBD ]</pre>
 <script src="https://unpkg.com/react@16.7.0/umd/react.development.js"></script>
@@ -45,15 +45,49 @@
 <script src="https://unpkg.com/react@16.7.0/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.production.min.js"></script>
 -->
+<!--suppress ES6ConvertVarToLetConst -->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function() {
-        // noinspection ES6ConvertVarToLetConst
+        var ajax = {
+            "/tags": ["gym", "weights", "treadmill", "rowing machine", "stationary bicycle", "yoga", "stair climber", "basketball", "racket ball", "tennis", "swimming", "hot tub", "sauna", "home"],
+            "/next?q=": [
+                {t: "gym", nf: 0},
+                {t: "hot tub", nf: 0},
+                {t: "treadmill", nf: 0.8},
+            ],
+            "/next?q=gym": [
+                {t: "weights", nf: 0},
+                {t: "sauna", nf: 0},
+                {t: "treadmill", nf: 0.8},
+            ],
+            "/next?q=gym,weights": [
+                {t: "treadmill", nf: 0.8},
+                {t: "yoga", nf: 0},
+            ],
+            "/next?q=hot tub": [
+                {t: "gym", nf: 0},
+                {t: "home", nf: 0},
+            ],
+        };
         var props = {
             tagList: document.querySelector("#tags textarea").value,
-            onChange: newTagList => {
+            onChange: function(newTagList) {
                 props.tagList = newTagList;
+                setTimeout(function() {
+                    var list = newTagList.split(",")
+                        .map(function(it) { return it.trim() })
+                        .map(function(it) { return it.indexOf(':') < 0
+                            ? it
+                            : it.split(":")[0].trim();
+                        })
+                        .join(",");
+                    props.nextTags = ajax["/next?q=" + list] || [];
+                    update();
+                }, 1000);
                 update();
-            }
+            },
+            allTags: ajax["/tags"],
+            nextTags: ajax["/next?q="],
         };
         function update() {
             document.getElementById("result").innerText = props.tagList;
