@@ -40,6 +40,7 @@ class index extends React.PureComponent {
                 newTags[i] = {
                     ...t,
                     number: existing.number + t.number,
+                    explicit: true,
                 }
             }
             return {
