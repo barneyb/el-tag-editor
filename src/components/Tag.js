@@ -1,17 +1,12 @@
 import React from "react";
 import EditInPlace from "./EditInPlace";
+import { sanitizeTag } from "../util/sanitize";
 
 class Tag extends React.PureComponent {
 
     constructor(props) {
         super(props);
-        this.sanitize = this.sanitize.bind(this);
         this.doKeyDown = this.doKeyDown.bind(this);
-    }
-
-    // noinspection JSMethodCanBeStatic
-    sanitize(val) {
-        return val.replace(/,/g, '');
     }
 
     doKeyDown(e) {
@@ -30,7 +25,7 @@ class Tag extends React.PureComponent {
         } = this.props;
         return <EditInPlace className="EditInPlace tag"
                             value={tag}
-                            sanitize={this.sanitize}
+                            sanitize={sanitizeTag}
                             onCommit={onRename}
                             onKeyDown={this.doKeyDown}
         />;
