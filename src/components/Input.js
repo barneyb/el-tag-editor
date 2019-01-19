@@ -4,12 +4,12 @@ class Input extends React.PureComponent {
 
     constructor(props) {
         super(props);
-        this.onKeyDown = this.onKeyDown.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.onBlur = this.onBlur.bind(this);
+        this.doKeyDown = this.doKeyDown.bind(this);
+        this.doChange = this.doChange.bind(this);
+        this.doBlur = this.doBlur.bind(this);
     }
 
-    onKeyDown(e) {
+    doKeyDown(e) {
         const {
             onCancel,
             onCommit,
@@ -24,13 +24,13 @@ class Input extends React.PureComponent {
         }
     }
 
-    onChange(e) {
+    doChange(e) {
         const v = e.target.value;
         const sanitize = this.props.sanitize;
         this.props.onChange(sanitize ? sanitize(v) : v);
     }
 
-    onBlur() {
+    doBlur() {
         const {
             cancelOnBlur,
             onCancel,
@@ -43,15 +43,29 @@ class Input extends React.PureComponent {
             value,
             placeholder,
             className,
+            completions,
         } = this.props;
-        return <span className={"Input " + className}>
-            <input onKeyDown={this.onKeyDown}
-                   onChange={this.onChange}
-                   onBlur={this.onBlur}
+        return <span className={"Input " + className}
+                     style={{
+                        position: "relative",
+                     }}>
+            <input onKeyDown={this.doKeyDown}
+                   onChange={this.doChange}
+                   onBlur={this.doBlur}
                    autoFocus={true}
                    value={value}
                    placeholder={placeholder}
             />
+            {completions && <div className="Completions"
+                                 style={{
+                                     position: "absolute",
+                                 }}>
+                <ul>
+                    {completions.map(it =>
+                        <li key={it}>{it}</li>
+                    )}
+                </ul>
+            </div>}
         </span>;
     }
 }

@@ -68,21 +68,18 @@ class NewTag extends React.PureComponent {
         const {
             knownTags,
         } = this.props;
-        const completions = knownTags && value.trim().length > 0
+        const completions = knownTags// && value.trim().length > 0 // todo
             ? this.getCompletions(knownTags, value)
             : null;
-        const input = <Input value={value}
-                             placeholder="add..."
-                             cancelOnBlur={false}
-                             sanitize={sanitizeCompoundTag}
-                             onChange={this.doChange}
-                             onCommit={this.doCommit}
-                             onCancel={this.doCancel}
+        return <Input value={value}
+                      placeholder="add..."
+                      cancelOnBlur={false}
+                      sanitize={sanitizeCompoundTag}
+                      onChange={this.doChange}
+                      onCommit={this.doCommit}
+                      onCancel={this.doCancel}
+                      completions={completions}
         />;
-        return <span>
-            {input}
-            <em>{completions && completions.join(",")}</em>
-            </span>;
     }
 
 }

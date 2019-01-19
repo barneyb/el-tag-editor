@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 
-class Label extends Component {
+class Label extends React.PureComponent {
 
     constructor(props) {
         super(props);
