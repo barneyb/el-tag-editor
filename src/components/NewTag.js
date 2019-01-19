@@ -8,6 +8,7 @@ const MAX_COMPLETIONS = 10;
 const filterTags = (knownTags, value) => {
     const completions = [];
     const matches = [];
+    value = value.toLowerCase();
     for (const t of knownTags) {
         const idx = t.indexOf(value);
         if (idx === 0) { // prefix
