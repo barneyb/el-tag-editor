@@ -5,6 +5,31 @@ import { sanitizeCompoundTag } from "../util/sanitize";
 
 const MAX_COMPLETIONS = 10;
 
+const filterTags = (knownTags, value) => {
+    const completions = [];
+    const matches = [];
+    for (const t of knownTags) {
+        const idx = t.indexOf(value);
+        if (idx === 0) { // prefix
+            completions.push(t);
+            if (completions.length === MAX_COMPLETIONS) {
+                return completions;
+            }
+        } else if (idx > 0) { // substring
+            if (matches.length + completions.length < MAX_COMPLETIONS) {
+                matches.push(t)
+            }
+        }
+    }
+    // see if there was nothing at all
+    if (completions.length === 0 && matches.length === 0) {
+        return null;
+    }
+    // if we got here, we need to add at least some of the matches
+    completions.push(...matches);
+    return completions.slice(0, MAX_COMPLETIONS);
+};
+
 class NewTag extends React.PureComponent {
 
     constructor(props) {
@@ -15,26 +40,7 @@ class NewTag extends React.PureComponent {
         this.doChange = this.doChange.bind(this);
         this.doCommit = this.doCommit.bind(this);
         this.doCancel = this.doCancel.bind(this);
-        this.getCompletions = memoize((knownTags, value) => {
-            const completions = [];
-            const matches = [];
-            for (const t of knownTags) {
-                const idx = t.indexOf(value);
-                if (idx === 0) { // prefix
-                    completions.push(t);
-                    if (completions.length === MAX_COMPLETIONS) {
-                        return completions;
-                    }
-                } else if (idx > 0) { // substring
-                    if (matches.length + completions.length < MAX_COMPLETIONS) {
-                        matches.push(t)
-                    }
-                }
-            }
-            // if we got here, we need to add at least some of the matches
-            completions.push(...matches);
-            return completions.slice(0, MAX_COMPLETIONS);
-        });
+        this.getCompletions = memoize(filterTags);
     }
 
     clear() {

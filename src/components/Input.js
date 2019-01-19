@@ -4,9 +4,29 @@ class Input extends React.PureComponent {
 
     constructor(props) {
         super(props);
+        this.state = {
+            showCompletions: false,
+            selectedIndex: 0,
+        };
         this.doKeyDown = this.doKeyDown.bind(this);
         this.doChange = this.doChange.bind(this);
         this.doBlur = this.doBlur.bind(this);
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.value !== state.prevValue) {
+            return {
+                showCompletions: props.completions != null,
+                selectedIndex: 0,
+                prevValue: props.value,
+            };
+        }
+        if (state.showCompletions && props.completions == null) {
+            return {
+                showCompletions: false,
+            }
+        }
+        return null; // do nothing
     }
 
     doKeyDown(e) {
@@ -15,6 +35,24 @@ class Input extends React.PureComponent {
             onCommit,
         } = this.props;
         switch (e.key) {
+            case "ArrowUp":
+                this.setState((s, p) => {
+                    if (p.completions && s.selectedIndex > 0) {
+                        return {
+                            selectedIndex: s.selectedIndex - 1,
+                        };
+                    }
+                });
+                break;
+            case "ArrowDown":
+                this.setState((s, p) => {
+                    if (p.completions && s.selectedIndex < p.completions.length - 1) {
+                        return {
+                            selectedIndex: s.selectedIndex + 1,
+                        };
+                    }
+                });
+                break;
             case "Escape":
                 onCancel && onCancel();
                 break;
@@ -45,9 +83,13 @@ class Input extends React.PureComponent {
             className,
             completions,
         } = this.props;
+        const {
+            showCompletions,
+            selectedIndex,
+        } = this.state;
         return <span className={"Input " + className}
                      style={{
-                        position: "relative",
+                         position: "relative",
                      }}>
             <input onKeyDown={this.doKeyDown}
                    onChange={this.doChange}
@@ -56,13 +98,13 @@ class Input extends React.PureComponent {
                    value={value}
                    placeholder={placeholder}
             />
-            {completions && <div className="Completions"
+            {showCompletions && <div className="Completions"
                                  style={{
                                      position: "absolute",
                                  }}>
                 <ul>
-                    {completions.map(it =>
-                        <li key={it}>{it}</li>
+                    {completions.map((it, i) =>
+                        <li key={it} className={selectedIndex === i ? "active" : null}>{it}</li>,
                     )}
                 </ul>
             </div>}
