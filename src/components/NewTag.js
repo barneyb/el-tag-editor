@@ -37,10 +37,15 @@ class NewTag extends React.PureComponent {
         this.state = {
             value: "",
         };
+        this.inputRef = React.createRef();
         this.doChange = this.doChange.bind(this);
         this.doCommit = this.doCommit.bind(this);
         this.doCancel = this.doCancel.bind(this);
         this.getCompletions = memoize(filterTags);
+    }
+
+    focus() {
+        this.inputRef.current.focus();
     }
 
     doChange(tag) {
@@ -84,6 +89,7 @@ class NewTag extends React.PureComponent {
             ? this.getCompletions(knownTags, value)
             : null;
         return <Input value={value}
+                      className="NewTag"
                       placeholder="add..."
                       cancelOnBlur={false}
                       sanitize={sanitizeCompoundTag}
@@ -91,6 +97,7 @@ class NewTag extends React.PureComponent {
                       onCommit={this.doCommit}
                       onCancel={this.doCancel}
                       completions={completions}
+                      ref={this.inputRef}
         />;
     }
 

@@ -13,13 +13,30 @@ class EditInPlace extends React.PureComponent {
             mode: VIEW,
         };
         this.labelRef = React.createRef();
-        this.startEditing = this.startEditing.bind(this);
+        this.doClick = this.doClick.bind(this);
+        this.doKeyDown = this.doKeyDown.bind(this);
         this.updateEdit = this.updateEdit.bind(this);
         this.commitEdit = this.commitEdit.bind(this);
         this.cancelEdit = this.cancelEdit.bind(this);
     }
 
-    startEditing() {
+    doKeyDown(e) {
+        const {
+            onKeyDown,
+        } = this.props;
+        if (e.key === "Enter") {
+            this.beginEditing();
+        } else {
+            onKeyDown && onKeyDown(e);
+        }
+    }
+
+    doClick(e) {
+        e.stopPropagation();
+        this.beginEditing();
+    }
+
+    beginEditing() {
         this.setState(state => {
             if (state.mode === VIEW) {
                 return {
@@ -27,7 +44,7 @@ class EditInPlace extends React.PureComponent {
                     newValue: this.props.value,
                 }
             }
-        })
+        });
     }
 
     updateEdit(newValue) {
@@ -43,17 +60,16 @@ class EditInPlace extends React.PureComponent {
 
     cancelEdit() {
         this.setState({
-            mode: VIEW,
-            newValue: undefined,
-        }, () =>
-            this.labelRef.current.focus()
+                mode: VIEW,
+                newValue: undefined,
+            }, () =>
+                this.labelRef.current.focus(),
         );
     }
 
     render() {
         const {
             value,
-            onKeyDown,
             className,
             sanitize,
         } = this.props;
@@ -64,8 +80,8 @@ class EditInPlace extends React.PureComponent {
         if (mode === VIEW) {
             return <Label className={className}
                           label={value}
-                          onClick={this.startEditing}
-                          onKeyDown={onKeyDown}
+                          onClick={this.doClick}
+                          onKeyDown={this.doKeyDown}
                           ref={this.labelRef}
             />;
         }

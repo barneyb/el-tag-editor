@@ -8,6 +8,7 @@ class Input extends React.PureComponent {
             showCompletions: true,
             selectedIndex: 0,
         };
+        this.inputRef = React.createRef();
         this.doKeyDown = this.doKeyDown.bind(this);
         this.doChange = this.doChange.bind(this);
         this.doBlur = this.doBlur.bind(this);
@@ -22,6 +23,10 @@ class Input extends React.PureComponent {
             };
         }
         return null; // do nothing
+    }
+
+    focus() {
+        this.inputRef.current.focus();
     }
 
     doKeyDown(e) {
@@ -50,8 +55,8 @@ class Input extends React.PureComponent {
                 });
                 break;
             case "Escape":
-                this.setState(s => {
-                    if (s.showCompletions) {
+                this.setState((s, p) => {
+                    if (p.completions && s.showCompletions) {
                         return {
                             showCompletions: false,
                         }
@@ -117,6 +122,7 @@ class Input extends React.PureComponent {
                    autoFocus={autoFocus}
                    value={value}
                    placeholder={placeholder}
+                   ref={this.inputRef}
             />
             {completions && showCompletions && <div className="Completions"
                                                     style={{
