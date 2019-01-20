@@ -9,7 +9,7 @@ const MAX_COMPLETIONS = 10;
 const filterTags = (knownTags, value) => {
     const ordered = [];
     const unordered = [];
-    const words = toWords(value);
+    const words = toWords(value.toLowerCase());
     tagLoop:
     for (const t of knownTags) {
         let start = 0;

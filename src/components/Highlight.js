@@ -4,22 +4,22 @@ class Highlight extends React.PureComponent {
 
     render() {
         const {
-            terms: termArray,
+            terms,
             children: text, // must be a string!
         } = this.props;
-        let start = 0;
-        let moreToDo;
-        const buffer = [];
-        const terms = {};
-        for (const t of termArray) {
-            terms[t] = null;
+        const termArray = [];
+        for (const t of terms) {
+            termArray.push(t.toLowerCase());
         }
-        do {
+        const lcText = text.toLowerCase();
+        let start = 0;
+        const buffer = [];
+        let moreToDo = true;
+        while (moreToDo) {
             moreToDo = false;
             let idx = text.length, term;
-            for (const t in terms) {
-                // noinspection JSUnfilteredForInLoop
-                const i = text.indexOf(t, start);
+            for (const t of termArray) {
+                const i = lcText.indexOf(t, start);
                 if (i >= 0 && i < idx) {
                     moreToDo = true;
                     idx = i;
@@ -32,9 +32,8 @@ class Highlight extends React.PureComponent {
                 }
                 buffer.push(<strong key={start}>{text.substr(idx, term.length)}</strong>);
                 start = idx + term.length;
-                delete terms[term];
             }
-        } while (moreToDo);
+        }
         if (start < text.length) {
             buffer.push(text.substr(start));
         }
