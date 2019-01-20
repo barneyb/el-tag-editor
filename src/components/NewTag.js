@@ -44,7 +44,7 @@ const filterTags = (knownTags, lcTags, value) => {
             unordered.push(t);
         }
     }
-    if (ordered.length === 0 && unordered.length === 0) return [];
+    if (ordered.length === 0 && unordered.length === 0) return null;
     // need some of the unordered results
     ordered.push(...unordered);
     return ordered.slice(0, MAX_COMPLETIONS);
