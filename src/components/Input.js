@@ -9,6 +9,7 @@ class Input extends React.PureComponent {
             selectedIndex: 0,
         };
         this.inputRef = React.createRef();
+        this.doComplete = this.doComplete.bind(this);
         this.doKeyDown = this.doKeyDown.bind(this);
         this.doChange = this.doChange.bind(this);
         this.doBlur = this.doBlur.bind(this);
@@ -97,7 +98,16 @@ class Input extends React.PureComponent {
         cancelOnBlur && onCancel && onCancel();
         this.setState({
             showCompletions: false,
-        })
+        });
+    }
+
+    doComplete(e, tag) {
+        const {
+            onChange,
+            onCommit,
+        } = this.props;
+        onChange(tag);
+        onCommit && onCommit();
     }
 
     render() {
@@ -112,10 +122,7 @@ class Input extends React.PureComponent {
             showCompletions,
             selectedIndex,
         } = this.state;
-        return <span className={"Input " + className}
-                     style={{
-                         position: "relative",
-                     }}>
+        return <span className={"Input " + className}>
             <input onKeyDown={this.doKeyDown}
                    onChange={this.doChange}
                    onBlur={this.doBlur}
@@ -124,14 +131,13 @@ class Input extends React.PureComponent {
                    placeholder={placeholder}
                    ref={this.inputRef}
             />
-            {completions && showCompletions && <div className="Completions"
-                                                    style={{
-                                                        position: "absolute",
-                                                    }}>
+            {completions && showCompletions && <div className="Completions">
                 <ul>
                     {completions.map((it, i) =>
                         <li key={it}
-                            className={selectedIndex === i ? "active" : null}>{it}</li>,
+                            className={selectedIndex === i ? "active" : null}
+                            onMouseDown={(e) => this.doComplete(e, it)}
+                        >{it}</li>,
                     )}
                 </ul>
             </div>}
