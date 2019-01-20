@@ -24,7 +24,9 @@ class index extends React.PureComponent {
         if (this.props.tagList === props.tagList) {
             return;
         }
-        this.setState(parse(props.tagList))
+        this.setState({
+            tags: parse(props.tagList),
+        })
     }
 
     addTag(tag) {
@@ -59,7 +61,7 @@ class index extends React.PureComponent {
             }
             const newTags = state.tags.slice(0);
             const t = parseTag(newTag);
-            if (! t.explicit) {
+            if (!t.explicit) {
                 // let whatever was there before remain
                 delete t.number;
                 delete t.explicit;
@@ -86,7 +88,7 @@ class index extends React.PureComponent {
             newTags[i] = {
                 ...newTags[i],
                 number: number != null ? number : 1,
-                explicit: number != null
+                explicit: number != null,
             };
             return {
                 tags: newTags,

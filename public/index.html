@@ -66,6 +66,7 @@
     <textarea rel="to-be-replaced">gym, </textarea>
 </div>
 <pre id="result">[ TBD ]</pre>
+<button id="clear">Clear</button>
 <script src="react.development.js"></script>
 <script src="react-dom.development.js"></script>
 <!--suppress ES6ConvertVarToLetConst -->
@@ -131,6 +132,9 @@
                 document.getElementById("tags"),
             );
         }
+        document.getElementById("clear").addEventListener("click", function() {
+            props.onChange("");
+        });
     });
 </script>
 </body>
