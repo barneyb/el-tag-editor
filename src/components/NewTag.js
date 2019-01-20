@@ -6,29 +6,28 @@ import { sanitizeCompoundTag } from "../util/sanitize";
 const MAX_COMPLETIONS = 10;
 
 const filterTags = (knownTags, value) => {
-    const completions = [];
-    const matches = [];
-    value = value.toLowerCase();
+    const ordered = [];
+    const words = value.trim()
+        .toLowerCase()
+        .split(" ")
+        .map(it => it.trim())
+        .filter(it => it.length > 0);
+    tagLoop:
     for (const t of knownTags) {
-        const idx = t.indexOf(value);
-        if (idx === 0) { // prefix
-            completions.push(t);
-            if (completions.length === MAX_COMPLETIONS) {
-                return completions;
-            }
-        } else if (idx > 0) { // substring
-            if (matches.length + completions.length < MAX_COMPLETIONS) {
-                matches.push(t)
-            }
+        let start = 0;
+        for (const w of words) {
+            const idx = t.indexOf(w, start);
+            if (idx < 0) continue tagLoop; // didn't match :(
+            start = idx + 1;
+        }
+        // if we got here, we found all words, in order
+        ordered.push(t);
+        if (ordered.length === MAX_COMPLETIONS) {
+            // woo!
+            return ordered;
         }
     }
-    // see if there was nothing at all
-    if (completions.length === 0 && matches.length === 0) {
-        return null;
-    }
-    // if we got here, we need to add at least some of the matches
-    completions.push(...matches);
-    return completions.slice(0, MAX_COMPLETIONS);
+    return ordered.length === 0 ? null : ordered;
 };
 
 class NewTag extends React.PureComponent {
