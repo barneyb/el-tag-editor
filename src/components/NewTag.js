@@ -2,17 +2,14 @@ import React from "react";
 import Input from "./Input";
 import memoize from "memoize-one";
 import { sanitizeCompoundTag } from "../util/sanitize";
+import toWords from "../util/toWords";
 
 const MAX_COMPLETIONS = 10;
 
 const filterTags = (knownTags, value) => {
     const ordered = [];
     const unordered = [];
-    const words = value.trim()
-        .toLowerCase()
-        .split(" ")
-        .map(it => it.trim())
-        .filter(it => it.length > 0);
+    const words = toWords(value);
     tagLoop:
     for (const t of knownTags) {
         let start = 0;

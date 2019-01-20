@@ -1,4 +1,6 @@
 import React from 'react';
+import toWords from "../util/toWords";
+import Highlight from "./Highlight";
 
 class Input extends React.PureComponent {
 
@@ -123,6 +125,7 @@ class Input extends React.PureComponent {
             completions,
             autoFocus,
         } = this.props;
+        const terms = toWords(value);
         const {
             showCompletions,
             selectedIndex,
@@ -142,7 +145,7 @@ class Input extends React.PureComponent {
                         <li key={it}
                             className={selectedIndex === i ? "active" : null}
                             onMouseDown={(e) => this.doComplete(e, it)}
-                        >{it}</li>,
+                        ><Highlight terms={terms}>{it}</Highlight></li>,
                     )}
                 </ul>
             </div>}
