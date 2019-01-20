@@ -125,11 +125,24 @@ class Input extends React.PureComponent {
             completions,
             autoFocus,
         } = this.props;
-        const terms = toWords(value);
         const {
             showCompletions,
             selectedIndex,
         } = this.state;
+        let compEl;
+        if (completions && showCompletions) {
+            const terms = toWords(value);
+            compEl = <div className="Completions">
+                <ul>
+                    {completions.map((it, i) =>
+                        <li key={it}
+                            className={selectedIndex === i ? "active" : null}
+                            onMouseDown={(e) => this.doComplete(e, it)}
+                        ><Highlight terms={terms}>{it}</Highlight></li>,
+                    )}
+                </ul>
+            </div>;
+        }
         return <span className={"Input " + className}>
             <input onKeyDown={this.doKeyDown}
                    onChange={this.doChange}
@@ -139,16 +152,7 @@ class Input extends React.PureComponent {
                    placeholder={placeholder}
                    ref={this.inputRef}
             />
-            {completions && showCompletions && <div className="Completions">
-                <ul>
-                    {completions.map((it, i) =>
-                        <li key={it}
-                            className={selectedIndex === i ? "active" : null}
-                            onMouseDown={(e) => this.doComplete(e, it)}
-                        ><Highlight terms={terms}>{it}</Highlight></li>,
-                    )}
-                </ul>
-            </div>}
+            {compEl}
         </span>;
     }
 }
