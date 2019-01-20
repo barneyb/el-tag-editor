@@ -30,7 +30,7 @@ class Highlight extends React.PureComponent {
                 if (idx > start) {
                     buffer.push(text.substring(start, idx))
                 }
-                buffer.push(<strong>{text.substr(idx, term.length)}</strong>);
+                buffer.push(<strong key={start}>{text.substr(idx, term.length)}</strong>);
                 start = idx + term.length;
                 delete terms[term];
             }
@@ -38,8 +38,6 @@ class Highlight extends React.PureComponent {
         if (start < text.length) {
             buffer.push(text.substr(start));
         }
-        // this bitches about keys, and i can't figure out how to use a fragment
-        // to dodge the warning.
         return buffer;
     }
 }
