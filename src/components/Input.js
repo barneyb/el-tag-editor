@@ -88,7 +88,10 @@ class Input extends React.PureComponent {
                     value = this.props.completions[this.state.selectedIndex];
                     onChange(value);
                 }
-                onCommit && onCommit(value);
+                if (onCommit) {
+                    e.preventDefault();
+                    onCommit(value);
+                }
                 break;
         }
     }
