@@ -4,5 +4,6 @@ npm run build \
     && rsync --archive \
         --progress \
         --verbose \
+        --delete-after \
         dist/ \
         barneyb.com:/vol/www/barneyb.com/eventlog/apps/el-tag-editor/
