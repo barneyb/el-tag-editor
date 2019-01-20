@@ -114,7 +114,7 @@ class NewTag extends React.PureComponent {
         } = this.props;
         let completions = null;
         // don't complete pure numbers
-        if (knownTags && value.trim().length > 0) {
+        if (knownTags && value.trim().length > 0 && value !== parseFloat(value).toString()) {
             completions = this.getCompletions(knownTags, value);
         }
         return <Input value={value}
