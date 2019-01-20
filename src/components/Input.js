@@ -81,12 +81,14 @@ class Input extends React.PureComponent {
                 }
                 break;
             case "Enter":
+                let value = undefined;
                 if (completionsActive) {
                     e.preventDefault();
                     // assume pre-sanitized....
-                    onChange(this.props.completions[this.state.selectedIndex]);
+                    value = this.props.completions[this.state.selectedIndex];
+                    onChange(value);
                 }
-                onCommit && onCommit();
+                onCommit && onCommit(value);
                 break;
         }
     }
@@ -114,7 +116,7 @@ class Input extends React.PureComponent {
             onCommit,
         } = this.props;
         onChange(tag);
-        onCommit && onCommit();
+        onCommit && onCommit(tag);
     }
 
     render() {

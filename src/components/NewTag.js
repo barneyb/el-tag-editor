@@ -70,34 +70,31 @@ class NewTag extends React.PureComponent {
         this.inputRef.current.focus();
     }
 
+    clear() {
+        this.setState({
+            value: "",
+        });
+    }
+
     doChange(tag) {
         this.setState({
             value: tag,
         });
     }
 
-    doCommit() {
+    doCommit(val) {
         const {
             onCommit,
         } = this.props;
-        // this is complicated because doChange might be followed by doCommit in
-        // the same tick, and thus React will not have updated state by the time
-        // we get here. So we have to use setState to read the changed value.
-        this.setState(s => {
-            const value = s.value;
-            if (value && value.trim().length > 0) {
-                onCommit(value.trim());
-            }
-            return {
-                value: "",
-            }
-        });
+        const value = val || this.state.value;
+        if (onCommit && value && value.trim().length > 0) {
+            onCommit(value.trim());
+        }
+        this.clear();
     }
 
     doCancel() {
-        this.setState({
-            value: "",
-        });
+        this.clear();
     }
 
     render() {
