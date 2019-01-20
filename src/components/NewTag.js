@@ -6,17 +6,19 @@ import toWords from "../util/toWords";
 
 const MAX_COMPLETIONS = 10;
 
-const filterTags = (knownTags, value) => {
+const filterTags = (knownTags, lcTags, value) => {
     const ordered = [];
     const unordered = [];
     const words = toWords(value.toLowerCase());
     tagLoop:
-    for (const t of knownTags) {
+    for (let i = 0; i < knownTags.length; i++) {
+        const t = knownTags[i];
+        const lct = lcTags[i];
         let start = 0;
         let inOrder = true;
         for (const w of words) {
             if (inOrder) {
-                const idx = t.indexOf(w, start);
+                const idx = lct.indexOf(w, start);
                 if (idx >= start) {
                     start = idx + 1;
                 } else {
@@ -59,6 +61,8 @@ class NewTag extends React.PureComponent {
         this.doChange = this.doChange.bind(this);
         this.doCommit = this.doCommit.bind(this);
         this.doCancel = this.doCancel.bind(this);
+        this.lcArray = memoize(strings =>
+            strings.map(s => s.toLowerCase()));
         this.getCompletions = memoize(filterTags);
     }
 
@@ -104,7 +108,7 @@ class NewTag extends React.PureComponent {
             knownTags,
         } = this.props;
         const completions = knownTags && value.trim().length > 0
-            ? this.getCompletions(knownTags, value)
+            ? this.getCompletions(knownTags, this.lcArray(knownTags), value)
             : null;
         return <Input value={value}
                       className="NewTag"
