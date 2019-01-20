@@ -36,10 +36,12 @@ class Input extends React.PureComponent {
             onCancel,
             onCommit,
         } = this.props;
+        const completionsActive = this.state.showCompletions && this.props.completions;
         switch (e.key) {
             case "ArrowUp":
+                if (completionsActive) e.preventDefault();
                 this.setState((s, p) => {
-                    if (p.completions && s.selectedIndex > 0) {
+                    if (s.showCompletions && p.completions && s.selectedIndex > 0) {
                         return {
                             selectedIndex: s.selectedIndex - 1,
                         };
@@ -47,8 +49,9 @@ class Input extends React.PureComponent {
                 });
                 break;
             case "ArrowDown":
+                if (completionsActive) e.preventDefault();
                 this.setState((s, p) => {
-                    if (p.completions && s.selectedIndex < p.completions.length - 1) {
+                    if (s.showCompletions && p.completions && s.selectedIndex < p.completions.length - 1) {
                         return {
                             selectedIndex: s.selectedIndex + 1,
                         };
@@ -56,8 +59,9 @@ class Input extends React.PureComponent {
                 });
                 break;
             case "Escape":
+                if (completionsActive) e.preventDefault();
                 this.setState((s, p) => {
-                    if (p.completions && s.showCompletions) {
+                    if (s.showCompletions && p.completions) {
                         return {
                             showCompletions: false,
                         }
@@ -68,14 +72,14 @@ class Input extends React.PureComponent {
                 break;
             case "Tab":
                 if (e.shiftKey) break;
-                if (this.state.showCompletions && this.props.completions) {
+                if (completionsActive) {
                     e.preventDefault();
                     // assume pre-sanitized....
                     onChange(this.props.completions[this.state.selectedIndex]);
                 }
                 break;
             case "Enter":
-                if (this.state.showCompletions && this.props.completions) {
+                if (completionsActive) {
                     e.preventDefault();
                     // assume pre-sanitized....
                     onChange(this.props.completions[this.state.selectedIndex]);
