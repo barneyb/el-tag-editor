@@ -61,9 +61,8 @@ class NewTag extends React.PureComponent {
         this.doChange = this.doChange.bind(this);
         this.doCommit = this.doCommit.bind(this);
         this.doCancel = this.doCancel.bind(this);
-        this.lcArray = memoize(strings =>
-            strings.map(s => s.toLowerCase()));
-        this.getCompletions = memoize(filterTags);
+        this.getLcArray = memoize(this.getLcArray);
+        this.getCompletions = memoize(this.getCompletions);
     }
 
     focus() {
@@ -97,6 +96,15 @@ class NewTag extends React.PureComponent {
         this.clear();
     }
 
+    // noinspection JSMethodCanBeStatic
+    getLcArray(strings) {
+        return strings.map(s => s.toLowerCase());
+    }
+
+    getCompletions(knownTags, value) {
+        return filterTags(knownTags, this.getLcArray(knownTags), value);
+    }
+
     render() {
         const {
             value,
@@ -104,9 +112,11 @@ class NewTag extends React.PureComponent {
         const {
             knownTags,
         } = this.props;
-        const completions = knownTags && value.trim().length > 0
-            ? this.getCompletions(knownTags, this.lcArray(knownTags), value)
-            : null;
+        let completions = null;
+        // don't complete pure numbers
+        if (knownTags && value.trim().length > 0) {
+            completions = this.getCompletions(knownTags, value);
+        }
         return <Input value={value}
                       className="NewTag"
                       placeholder="add..."
