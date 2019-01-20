@@ -76,6 +76,7 @@ class Input extends React.PureComponent {
                 break;
             case "Enter":
                 if (this.state.showCompletions && this.props.completions) {
+                    e.preventDefault();
                     // assume pre-sanitized....
                     onChange(this.props.completions[this.state.selectedIndex]);
                 }
