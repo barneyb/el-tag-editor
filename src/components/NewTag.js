@@ -7,6 +7,7 @@ const MAX_COMPLETIONS = 10;
 
 const filterTags = (knownTags, value) => {
     const ordered = [];
+    const unordered = [];
     const words = value.trim()
         .toLowerCase()
         .split(" ")
@@ -15,19 +16,39 @@ const filterTags = (knownTags, value) => {
     tagLoop:
     for (const t of knownTags) {
         let start = 0;
+        let inOrder = true;
         for (const w of words) {
-            const idx = t.indexOf(w, start);
-            if (idx < 0) continue tagLoop; // didn't match :(
-            start = idx + 1;
+            if (inOrder) {
+                const idx = t.indexOf(w, start);
+                if (idx >= start) {
+                    start = idx + 1;
+                } else {
+                    inOrder = false;
+                }
+            }
+            if (! inOrder) {
+                if (ordered.length + unordered.length >= MAX_COMPLETIONS) {
+                    // won't be useful...
+                    continue tagLoop;
+                }
+                const idx = t.indexOf(w);
+                if (idx < 0) continue tagLoop;
+            }
         }
-        // if we got here, we found all words, in order
-        ordered.push(t);
-        if (ordered.length === MAX_COMPLETIONS) {
-            // woo!
-            return ordered;
+        // found all words
+        if (inOrder) {
+            ordered.push(t);
+            if (ordered.length === MAX_COMPLETIONS) {
+                return ordered;
+            }
+        } else {
+            unordered.push(t);
         }
     }
-    return ordered.length === 0 ? null : ordered;
+    if (ordered.length === 0 && unordered.length === 0) return [];
+    // need some of the unordered results
+    ordered.push(...unordered);
+    return ordered.slice(0, MAX_COMPLETIONS);
 };
 
 class NewTag extends React.PureComponent {
