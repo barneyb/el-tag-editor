@@ -7,17 +7,22 @@ class NextTags extends React.PureComponent {
             nextTags,
             onSelect,
         } = this.props;
-        if (nextTags == null || nextTags.length === 0) {
-            return null;
-        }
-        return <div className="NextTags">
-            <ul>
+        let list;
+        if (nextTags == null) {
+            list = <div className="Loading" />;
+        } else if (nextTags.length === 0) {
+            list = null;
+        } else {
+            list = <ul>
                 {nextTags.map(it =>
                     <li key={it.t}
                         className="NextTag"
                         onClick={() => onSelect(it.t)}
                     >{it.t}</li>)}
-            </ul>
+            </ul>;
+        }
+        return <div className="NextTags">
+            {list}
         </div>
     }
 
