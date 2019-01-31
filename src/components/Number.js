@@ -11,7 +11,11 @@ class Number extends React.PureComponent {
     }
 
     doCommit(val) {
-        this.props.onSet(parseFloat(val));
+        val = parseFloat(val);
+        if (isNaN(val)) {
+            val = null;
+        }
+        this.props.onSet(val);
     }
 
     doKeyDown(e) {
