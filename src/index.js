@@ -54,6 +54,11 @@ class index extends React.PureComponent {
     }
 
     renameTag(tag, newTag) {
+        if (! newTag) {
+            // renamed to nothing means delete
+            this.deleteTag(tag);
+            return;
+        }
         this.setState(state => {
             const i = state.tags.findIndex(it => it.tag === tag);
             if (i < 0) {

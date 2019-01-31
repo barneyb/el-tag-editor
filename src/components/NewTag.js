@@ -86,7 +86,7 @@ class NewTag extends React.PureComponent {
             onCommit,
         } = this.props;
         const value = val || this.state.value;
-        if (onCommit && value && value.trim().length > 0) {
+        if (onCommit) {
             onCommit(value.trim());
         }
         this.clear();
