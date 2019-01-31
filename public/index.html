@@ -141,6 +141,14 @@
                 });
                 update();
             },
+            onCommit: function() {
+                props.debug = ! props.debug;
+                update();
+                setTimeout(function() {
+                    props.debug = ! props.debug;
+                    update();
+                }, 500);
+            },
         };
         delay(function() {
             props.knownTags = ajax["/tags"];

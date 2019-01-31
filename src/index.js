@@ -30,6 +30,11 @@ class index extends React.PureComponent {
     }
 
     addTag(tag) {
+        if (! tag) {
+            // adding nothing is a editor-level commit
+            this.props.onCommit && this.props.onCommit();
+            return;
+        }
         this.setState(state => {
             const t = parseTag(tag);
             const i = state.tags.findIndex(it => it.tag === t.tag);
