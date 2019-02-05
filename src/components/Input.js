@@ -1,39 +1,125 @@
 import React from 'react';
+import toWords from "../util/toWords";
+import Highlight from "./Highlight";
 
 class Input extends React.PureComponent {
 
     constructor(props) {
         super(props);
-        this.onKeyDown = this.onKeyDown.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.onBlur = this.onBlur.bind(this);
+        this.state = {
+            showCompletions: true,
+            selectedIndex: 0,
+        };
+        this.inputRef = React.createRef();
+        this.doComplete = this.doComplete.bind(this);
+        this.doKeyDown = this.doKeyDown.bind(this);
+        this.doChange = this.doChange.bind(this);
+        this.doBlur = this.doBlur.bind(this);
     }
 
-    onKeyDown(e) {
+    static getDerivedStateFromProps(props, state) {
+        if (props.value !== state.prevValue) {
+            return {
+                showCompletions: true,
+                selectedIndex: 0,
+                prevValue: props.value,
+            };
+        }
+        return null; // do nothing
+    }
+
+    focus() {
+        this.inputRef.current.focus();
+    }
+
+    doKeyDown(e) {
         const {
+            onChange,
             onCancel,
             onCommit,
         } = this.props;
+        const completionsActive = this.state.showCompletions && this.props.completions;
         switch (e.key) {
+            case "ArrowUp":
+                if (completionsActive) e.preventDefault();
+                this.setState((s, p) => {
+                    if (s.showCompletions && p.completions && s.selectedIndex > 0) {
+                        return {
+                            selectedIndex: s.selectedIndex - 1,
+                        };
+                    }
+                });
+                break;
+            case "ArrowDown":
+                if (completionsActive) e.preventDefault();
+                this.setState((s, p) => {
+                    if (s.showCompletions && p.completions && s.selectedIndex < p.completions.length - 1) {
+                        return {
+                            selectedIndex: s.selectedIndex + 1,
+                        };
+                    }
+                });
+                break;
             case "Escape":
-                onCancel && onCancel();
+                if (completionsActive) e.preventDefault();
+                this.setState((s, p) => {
+                    if (s.showCompletions && p.completions) {
+                        return {
+                            showCompletions: false,
+                        }
+                    } else if (onCancel) {
+                        onCancel();
+                    }
+                });
+                break;
+            case "Tab":
+                if (e.shiftKey) break;
+                if (completionsActive) {
+                    e.preventDefault();
+                    // assume pre-sanitized....
+                    onChange(this.props.completions[this.state.selectedIndex]);
+                }
                 break;
             case "Enter":
-                onCommit && onCommit();
+                let value = undefined;
+                if (completionsActive) {
+                    e.preventDefault();
+                    // assume pre-sanitized....
+                    value = this.props.completions[this.state.selectedIndex];
+                    onChange(value);
+                }
+                if (onCommit) {
+                    e.preventDefault();
+                    onCommit(value);
+                }
                 break;
         }
     }
 
-    onChange(e) {
-        this.props.onChange(e.target.value);
+    doChange(e) {
+        const v = e.target.value;
+        const sanitize = this.props.sanitize;
+        this.props.onChange(sanitize ? sanitize(v) : v);
     }
 
-    onBlur() {
+    doBlur() {
         const {
             cancelOnBlur,
             onCancel,
         } = this.props;
         cancelOnBlur && onCancel && onCancel();
+        this.setState({
+            showCompletions: false,
+        });
+    }
+
+    doComplete(e, tag) {
+        const {
+            onChange,
+            onCommit,
+        } = this.props;
+        onChange(tag);
+        onCommit && onCommit(tag);
     }
 
     render() {
@@ -41,20 +127,43 @@ class Input extends React.PureComponent {
             value,
             placeholder,
             className,
+            completions,
+            autoFocus,
         } = this.props;
+        const {
+            showCompletions,
+            selectedIndex,
+        } = this.state;
+        let compEl;
+        if (completions && showCompletions) {
+            const terms = toWords(value);
+            compEl = <div className="Completions">
+                <ul>
+                    {completions.map((it, i) =>
+                        <li key={it}
+                            className={selectedIndex === i ? "active" : null}
+                            onMouseDown={(e) => this.doComplete(e, it)}
+                        ><Highlight terms={terms}>{it}</Highlight></li>,
+                    )}
+                </ul>
+            </div>;
+        }
         return <span className={"Input " + className}>
-            <input onKeyDown={this.onKeyDown}
-                   onChange={this.onChange}
-                   onBlur={this.onBlur}
-                   autoFocus={true}
+            <input onKeyDown={this.doKeyDown}
+                   onChange={this.doChange}
+                   onBlur={this.doBlur}
+                   autoFocus={autoFocus}
                    value={value}
                    placeholder={placeholder}
+                   ref={this.inputRef}
             />
+            {compEl}
         </span>;
     }
 }
 
 Input.defaultProps = {
+    autoFocus: true,
     cancelOnBlur: true,
 };
 

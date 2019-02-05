@@ -1,23 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
 
-class Label extends Component {
+class Label extends React.PureComponent {
 
     constructor(props) {
         super(props);
         this.ref = React.createRef();
-        this.doKeyDown = this.doKeyDown.bind(this);
-    }
-
-    doKeyDown(e) {
-        const {
-            onClick,
-            onKeyDown,
-        } = this.props;
-        if (onClick && e.key === "Enter") {
-            onClick();
-            return;
-        }
-        onKeyDown && onKeyDown(e);
     }
 
     focus() {
@@ -28,13 +15,14 @@ class Label extends Component {
         const {
             label,
             preventFocus,
+            onKeyDown,
             onClick,
             className,
         } = this.props;
         return <span className={"Label " + className}
                      onClick={onClick}
                      tabIndex={preventFocus ? -1 : 0}
-                     onKeyDown={this.doKeyDown}
+                     onKeyDown={onKeyDown}
                      ref={this.ref}
         >
         {label}

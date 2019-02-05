@@ -13,7 +13,10 @@
         /* candidate component styles */
         .TagEditor {
             padding: 3px;
-            border: 1px solid #eee }
+            border: 1px solid #ccc }
+        .NewTag input {
+            border-width: 0;
+            outline-width: 0 }
         .Pill {
             display: inline-block;
             padding: 1px 3px;
@@ -31,20 +34,48 @@
             width: 4em }
         .Input {
             display: inline-block }
+        .Input .Completions {
+            position: absolute;
+            background-color: #ffe;
+            border: 1px solid #cc6 }
+        .Input .Completions ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 }
+        .Input .Completions ul li {
+            padding: 3px 5px;
+            margin: 0 }
+        .Input .Completions ul li.active {
+            background-color: #cc6 }
+        .NextTags ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 }
+        .NextTag {
+            display: inline-block;
+            padding: 1px 3px;
+            margin: 1px 3px 1px 0;
+            border: 1px solid #def;
+            background-color: #f9fcff;
+            cursor: pointer }
+        .NextTags .Loading {
+            margin: 1px 3px;
+            color: #999 }
+        .NextTags .Loading:before {
+            content: "hang on, yo!" }
     </style>
 </head>
 <body>
-<div id="tags">
-    <!--suppress HtmlFormInputWithoutLabel, CheckTagEmptyBody -->
-    <textarea rel="to-be-replaced"></textarea>
-</div>
+<form>
+    <div id="tags">
+        <!--suppress HtmlFormInputWithoutLabel, CheckTagEmptyBody -->
+        <textarea rel="to-be-replaced">gym, </textarea>
+    </div>
+</form>
 <pre id="result">[ TBD ]</pre>
-<script src="https://unpkg.com/react@16.7.0/umd/react.development.js"></script>
-<script src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.development.js"></script>
-<!--
-<script src="https://unpkg.com/react@16.7.0/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.production.min.js"></script>
--->
+<button id="clear">Clear</button>
+<script src="react.development.js"></script>
+<script src="react-dom.development.js"></script>
 <!--suppress ES6ConvertVarToLetConst -->
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function() {
@@ -52,19 +83,35 @@
             setTimeout(work, 200 + Math.random() * 500)
         }
         var ajax = {
-            "/tags": ["gym", "weights", "treadmill", "rowing machine", "stationary bicycle", "yoga", "stair climber", "basketball", "racket ball", "tennis", "swimming", "hot tub", "sauna", "home"],
+            "/tags": [
+                "hot tub",
+                "gym",
+                "weights",
+                "treadmill 1450",
+                "treadmill 3200",
+                "rowing machine",
+                "stationary bicycle",
+                "yoga",
+                "STAIR CLIMBER",
+                "basketball",
+                "racket ball",
+                "tennis",
+                "swimming",
+                "sauna",
+                "home"
+            ],
             "/next?q=": [
                 {t: "gym", nf: 0},
                 {t: "hot tub", nf: 0},
-                {t: "treadmill", nf: 0.8},
+                {t: "treadmill 1450", nf: 0.8},
             ],
             "/next?q=gym": [
                 {t: "weights", nf: 0},
                 {t: "sauna", nf: 0},
-                {t: "treadmill", nf: 0.8},
+                {t: "treadmill 1450", nf: 0.8},
             ],
             "/next?q=gym,weights": [
-                {t: "treadmill", nf: 0.8},
+                {t: "treadmill 1450", nf: 0.8},
                 {t: "yoga", nf: 0},
             ],
             "/next?q=hot tub": [
@@ -73,31 +120,41 @@
             ],
         };
         var props = {
-            tagList: document.querySelector("#tags textarea").value,
+            debug: true,
+            tagList: "",
             onChange: function(newTagList) {
+                if (props.tagList === newTagList) return;
                 props.tagList = newTagList;
+                props.nextTags = null;
                 delay(function() {
+                    if (props.tagList !== newTagList) return;
                     var list = newTagList.split(",")
                         .map(function(it) { return it.trim() })
                         .map(function(it) { return it.indexOf(':') < 0
                             ? it
                             : it.split(":")[0].trim();
                         })
+                        .filter(function(it) { return it.length > 0 })
                         .join(",");
                     props.nextTags = ajax["/next?q=" + list] || [];
                     update();
                 });
                 update();
             },
+            onCommit: function() {
+                props.debug = ! props.debug;
+                update();
+                setTimeout(function() {
+                    props.debug = ! props.debug;
+                    update();
+                }, 500);
+            },
         };
         delay(function() {
-            props.allTags = ajax["/tags"];
+            props.knownTags = ajax["/tags"];
             update();
         });
-        delay(function() {
-            props.nextTags = ajax["/next?q="];
-            update();
-        });
+        props.onChange(document.querySelector("#tags textarea").value);
         function update() {
             document.getElementById("result").innerText = props.tagList;
             // noinspection ES6ModulesDependencies
@@ -106,7 +163,9 @@
                 document.getElementById("tags"),
             );
         }
-        update();
+        document.getElementById("clear").addEventListener("click", function() {
+            props.onChange("");
+        });
     });
 </script>
 </body>

@@ -24,10 +24,17 @@ class index extends React.PureComponent {
         if (this.props.tagList === props.tagList) {
             return;
         }
-        this.setState(parse(props.tagList))
+        this.setState({
+            tags: parse(props.tagList),
+        })
     }
 
     addTag(tag) {
+        if (! tag) {
+            // adding nothing is a editor-level commit
+            this.props.onCommit && this.props.onCommit();
+            return;
+        }
         this.setState(state => {
             const t = parseTag(tag);
             const i = state.tags.findIndex(it => it.tag === t.tag);
@@ -40,6 +47,7 @@ class index extends React.PureComponent {
                 newTags[i] = {
                     ...t,
                     number: existing.number + t.number,
+                    explicit: true,
                 }
             }
             return {
@@ -51,6 +59,11 @@ class index extends React.PureComponent {
     }
 
     renameTag(tag, newTag) {
+        if (! newTag) {
+            // renamed to nothing means delete
+            this.deleteTag(tag);
+            return;
+        }
         this.setState(state => {
             const i = state.tags.findIndex(it => it.tag === tag);
             if (i < 0) {
@@ -58,7 +71,7 @@ class index extends React.PureComponent {
             }
             const newTags = state.tags.slice(0);
             const t = parseTag(newTag);
-            if (! t.explicit) {
+            if (!t.explicit) {
                 // let whatever was there before remain
                 delete t.number;
                 delete t.explicit;
@@ -85,7 +98,7 @@ class index extends React.PureComponent {
             newTags[i] = {
                 ...newTags[i],
                 number: number != null ? number : 1,
-                explicit: number != null
+                explicit: number != null,
             };
             return {
                 tags: newTags,
@@ -112,16 +125,28 @@ class index extends React.PureComponent {
     }
 
     render() {
+        const {
+            debug,
+            knownTags,
+            nextTags,
+        } = this.props;
         return <div>
             <TagEditor tags={this.state.tags}
                        addTag={this.addTag}
                        renameTag={this.renameTag}
                        setTagNumber={this.setTagNumber}
-                       deleteTag={this.deleteTag} />
-            <hr />
-            <pre>{JSON.stringify(this.state.tags, null, 3)}</pre>
-            <hr />
-            <code>{unparse(this.state.tags)}</code>
+                       deleteTag={this.deleteTag}
+                       knownTags={knownTags}
+                       nextTags={nextTags}
+            />
+            {debug && <React.Fragment>
+                <hr />
+                <pre>tags: {JSON.stringify(this.state.tags, null, 3)}</pre>
+                <hr />
+                <pre>props: {JSON.stringify(this.props, null, 3)}</pre>
+                <hr />
+                <code>list: {unparse(this.state.tags)}</code>
+            </React.Fragment>}
         </div>;
     }
 
