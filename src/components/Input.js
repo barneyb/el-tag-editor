@@ -1,6 +1,7 @@
 import React from 'react';
 import toWords from "../util/toWords";
 import Highlight from "./Highlight";
+import EventSink from "./EventSink";
 
 class Input extends React.PureComponent {
 
@@ -34,11 +35,13 @@ class Input extends React.PureComponent {
 
     doKeyDown(e) {
         const {
+            value,
             onChange,
             onCancel,
             onCommit,
         } = this.props;
         const completionsActive = this.state.showCompletions && this.props.completions;
+        let completion = undefined;
         switch (e.key) {
             case "ArrowUp":
                 if (completionsActive) e.preventDefault();
@@ -77,20 +80,22 @@ class Input extends React.PureComponent {
                 if (completionsActive) {
                     e.preventDefault();
                     // assume pre-sanitized....
-                    onChange(this.props.completions[this.state.selectedIndex]);
+                    completion = this.props.completions[this.state.selectedIndex];
+                    onChange(completion);
+                    EventSink.pickCompletion(completion, value);
                 }
                 break;
             case "Enter":
-                let value = undefined;
                 if (completionsActive) {
                     e.preventDefault();
                     // assume pre-sanitized....
-                    value = this.props.completions[this.state.selectedIndex];
-                    onChange(value);
+                    completion = this.props.completions[this.state.selectedIndex];
+                    onChange(completion);
+                    EventSink.pickCompletion(completion, value);
                 }
                 if (onCommit) {
                     e.preventDefault();
-                    onCommit(value);
+                    onCommit(completion);
                 }
                 break;
         }
@@ -115,10 +120,12 @@ class Input extends React.PureComponent {
 
     doComplete(e, tag) {
         const {
+            value,
             onChange,
             onCommit,
         } = this.props;
         onChange(tag);
+        EventSink.pickCompletion(tag, value);
         onCommit && onCommit(tag);
     }
 

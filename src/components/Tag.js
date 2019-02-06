@@ -1,6 +1,7 @@
 import React from "react";
 import EditInPlace from "./EditInPlace";
 import { sanitizeCompoundTag } from "../util/sanitize";
+import EventSink from "./EventSink";
 
 class Tag extends React.PureComponent {
 
@@ -13,7 +14,12 @@ class Tag extends React.PureComponent {
         switch (e.key) {
             case "Delete":
             case "Backspace":
-                this.props.doDelete();
+                let {
+                    tag,
+                    onDelete,
+                } = this.props;
+                onDelete && onDelete();
+                EventSink.deleteTag(tag);
                 break;
         }
     }

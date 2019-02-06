@@ -2,6 +2,7 @@ import React from "react";
 import Pill from "./Pill";
 import NewTag from "./NewTag";
 import NextTags from "./NextTags";
+import EventSink from "./EventSink";
 
 class TagEditor extends React.PureComponent {
 
@@ -26,8 +27,11 @@ class TagEditor extends React.PureComponent {
         const n = parseFloat(val.trim());
         if (isNaN(n)) {
             addTag(val);
+            EventSink.addTag(val);
         } else {
-            setTagNumber(tags[tags.length - 1].tag, n);
+            let tag = tags[tags.length - 1].tag;
+            setTagNumber(tag, n);
+            EventSink.setNumber(tag, n);
         }
     }
 

@@ -1,7 +1,18 @@
 import React from "react";
 import TagEditor from "./components/TagEditor";
-import parse, { parseTag } from "./util/parse";
-import unparse from "./util/unparse";
+import parse, {parseTag} from "./util/parse";
+import unparse, {unparseTag} from "./util/unparse";
+import EventSink from "./components/EventSink";
+
+const updateSinkAttributes = (props) => {
+    let compressed = parse(props.tagList)
+        .map(unparseTag)
+        .join(",");
+    EventSink.setAttribute("curr", compressed);
+    if (compressed === "") {
+        EventSink.resetSession();
+    }
+};
 
 // this is the entry point, so it'll never be used
 // noinspection JSUnusedGlobalSymbols
@@ -16,6 +27,13 @@ class index extends React.PureComponent {
         this.renameTag = this.renameTag.bind(this);
         this.setTagNumber = this.setTagNumber.bind(this);
         this.deleteTag = this.deleteTag.bind(this);
+        EventSink.register((name, data) => {
+            const {
+                onEvent,
+            } = this.props;
+            onEvent && onEvent(name, data);
+        });
+        updateSinkAttributes(props);
     }
 
     // Yes, this is as-intended. This bridges into React from the non-React
@@ -26,7 +44,8 @@ class index extends React.PureComponent {
         }
         this.setState({
             tags: parse(props.tagList),
-        })
+        });
+        updateSinkAttributes(props);
     }
 
     addTag(tag) {

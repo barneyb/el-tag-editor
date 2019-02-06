@@ -1,11 +1,24 @@
 import React from "react";
+import EventSink from "./EventSink";
 
 class NextTags extends React.PureComponent {
+
+    constructor(props) {
+        super(props);
+        this.doClick = this.doClick.bind(this);
+    }
+
+    doClick(e, tag) {
+        const {
+            onSelect,
+        } = this.props;
+        onSelect && onSelect(tag);
+        EventSink.pickSuggestion(tag);
+    }
 
     render() {
         const {
             nextTags,
-            onSelect,
         } = this.props;
         let list;
         if (nextTags == null) {
@@ -17,7 +30,7 @@ class NextTags extends React.PureComponent {
                 {nextTags.map(it =>
                     <li key={it.t}
                         className="NextTag"
-                        onClick={() => onSelect(it.t)}
+                        onClick={e => this.doClick(e, it.t)}
                     >{it.t}</li>)}
             </ul>;
         }

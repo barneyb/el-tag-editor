@@ -2,17 +2,47 @@ import React from "react";
 import Tag from "./Tag";
 import Number from "./Number";
 import Label from "./Label";
+import EventSink from "./EventSink";
 
 class Pill extends React.PureComponent {
 
     constructor(props) {
         super(props);
         this.doDeleteClick = this.doDeleteClick.bind(this);
+        this.doRename = this.doRename.bind(this);
+        this.doSetNumber = this.doSetNumber.bind(this);
+    }
+
+    doRename(newTag) {
+        const {
+            tag,
+            onRename,
+        } = this.props;
+        onRename && onRename(newTag);
+        EventSink.renameTag(tag, newTag)
+    }
+
+    doSetNumber(number) {
+        const {
+            tag,
+            onSetNumber,
+        } = this.props;
+        onSetNumber && onSetNumber(number);
+        if (number == null) {
+            EventSink.clearNumber(tag);
+        } else {
+            EventSink.setNumber(tag, number);
+        }
     }
 
     doDeleteClick(e) {
         e.stopPropagation();
-        this.props.onDelete();
+        let {
+            tag,
+            onDelete,
+        } = this.props;
+        onDelete && onDelete();
+        EventSink.deleteTag(tag);
     }
 
     render() {
@@ -20,17 +50,15 @@ class Pill extends React.PureComponent {
             tag,
             number,
             explicit,
-            onRename,
-            onSetNumber,
             onDelete,
         } = this.props;
         return <span className="Pill">
             <Tag tag={tag}
-                 onRename={onRename}
-                 doDelete={onDelete}
+                 onRename={this.doRename}
+                 onDelete={onDelete}
             />
             {explicit && <Number n={number}
-                                 onSet={onSetNumber}
+                                 onSet={this.doSetNumber}
             />}
             <Label className="delete"
                    label={"\u2715"}

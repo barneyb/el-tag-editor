@@ -149,6 +149,9 @@
                     update();
                 }, 500);
             },
+            onEvent: function(event, data) {
+                console.log(event, data);
+            },
         };
         delay(function() {
             props.knownTags = ajax["/tags"];
