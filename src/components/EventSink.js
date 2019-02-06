@@ -78,6 +78,10 @@ class EventSink {
         })
     }
 
+    enterCommit() {
+        this._dispatch("enter_commit", {});
+    }
+
 }
 
 export default new EventSink();
