@@ -58,10 +58,10 @@ class EventSink {
         });
     }
 
-    pickCompletion(tag, from) {
+    pickCompletion(tag, text) {
         this._dispatch("select_completion", {
             tag,
-            from,
+            text,
         });
     }
 
