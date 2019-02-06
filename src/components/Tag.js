@@ -18,8 +18,8 @@ class Tag extends React.PureComponent {
                     tag,
                     onDelete,
                 } = this.props;
-                onDelete && onDelete();
                 EventSink.deleteTag(tag);
+                onDelete && onDelete();
                 break;
         }
     }

@@ -18,8 +18,8 @@ class Pill extends React.PureComponent {
             tag,
             onRename,
         } = this.props;
+        EventSink.renameTag(tag, newTag);
         onRename && onRename(newTag);
-        EventSink.renameTag(tag, newTag)
     }
 
     doSetNumber(number) {
@@ -27,12 +27,12 @@ class Pill extends React.PureComponent {
             tag,
             onSetNumber,
         } = this.props;
-        onSetNumber && onSetNumber(number);
         if (number == null) {
             EventSink.clearNumber(tag);
         } else {
             EventSink.setNumber(tag, number);
         }
+        onSetNumber && onSetNumber(number);
     }
 
     doDeleteClick(e) {
@@ -41,8 +41,8 @@ class Pill extends React.PureComponent {
             tag,
             onDelete,
         } = this.props;
-        onDelete && onDelete();
         EventSink.deleteTag(tag);
+        onDelete && onDelete();
     }
 
     render() {

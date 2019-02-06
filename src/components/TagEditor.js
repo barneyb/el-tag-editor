@@ -26,12 +26,12 @@ class TagEditor extends React.PureComponent {
         }
         const n = parseFloat(val.trim());
         if (isNaN(n)) {
-            addTag(val);
             EventSink.addTag(val);
+            addTag(val);
         } else {
             let tag = tags[tags.length - 1].tag;
-            setTagNumber(tag, n);
             EventSink.setNumber(tag, n);
+            setTagNumber(tag, n);
         }
     }
 

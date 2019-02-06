@@ -12,8 +12,8 @@ class NextTags extends React.PureComponent {
         const {
             onSelect,
         } = this.props;
-        onSelect && onSelect(tag);
         EventSink.pickSuggestion(tag);
+        onSelect && onSelect(tag);
     }
 
     render() {

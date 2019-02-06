@@ -81,8 +81,8 @@ class Input extends React.PureComponent {
                     e.preventDefault();
                     // assume pre-sanitized....
                     completion = this.props.completions[this.state.selectedIndex];
-                    onChange(completion);
                     EventSink.pickCompletion(completion, value);
+                    onChange(completion);
                 }
                 break;
             case "Enter":
@@ -90,8 +90,8 @@ class Input extends React.PureComponent {
                     e.preventDefault();
                     // assume pre-sanitized....
                     completion = this.props.completions[this.state.selectedIndex];
-                    onChange(completion);
                     EventSink.pickCompletion(completion, value);
+                    onChange(completion);
                 }
                 if (onCommit) {
                     e.preventDefault();
@@ -124,8 +124,8 @@ class Input extends React.PureComponent {
             onChange,
             onCommit,
         } = this.props;
-        onChange(tag);
         EventSink.pickCompletion(tag, value);
+        onChange(tag);
         onCommit && onCommit(tag);
     }
 
