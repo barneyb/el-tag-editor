@@ -6,4 +6,4 @@ npm run build \
         --verbose \
         --delete-after \
         dist/ \
-        barneyb.com:/vol/www/barneyb.com/eventlog/apps/el-tag-editor/
+        barneyb@barneyb.com:/vol/www/barneyb.com/eventlog/apps/el-tag-editor/
