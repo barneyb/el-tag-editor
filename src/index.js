@@ -7,6 +7,7 @@ import EventSink from "./components/EventSink";
 const updateSinkAttributes = (props) => {
     let compressed = parse(props.tagList)
         .map(unparseTag)
+        .sort()
         .join(",");
     EventSink.setAttribute("curr", compressed);
     if (compressed === "") {
