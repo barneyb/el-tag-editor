@@ -119,7 +119,7 @@ class NewTag extends React.PureComponent {
         }
         return <Input value={value}
                       className="NewTag"
-                      placeholder="add..."
+                      placeholder="tag or number..."
                       cancelOnBlur={false}
                       sanitize={sanitizeCompoundTag}
                       onChange={this.doChange}
